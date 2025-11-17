@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/DataBase/">
+    <Project Path="GoalGrow.Data/GoalGrow.Data.csproj" />
+    <Project Path="GoalGrow.Entity/GoalGrow.Entity.csproj" Id="96075909-5d0a-4925-b514-2d5e06d3d76f" />
+    <Project Path="GoalGrow.Migration/GoalGrow.Migration.csproj" />
+  </Folder>
+</Solution>
