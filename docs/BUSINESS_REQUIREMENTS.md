@@ -1,8 +1,8 @@
-# ?? GoalGrow - Business Requirements Document
+#  GoalGrow - Business Requirements Document
 
 ## Executive Summary
 
-**GoalGrow** Ë una piattaforma fintech B2C che combina:
+**GoalGrow** √® una piattaforma fintech B2C che combina:
 - Gestione finanziaria personale con obiettivi di risparmio
 - Marketplace di consulenti finanziari
 - Sistema di investimenti guidato
@@ -10,14 +10,14 @@
 
 **Target Market:** Utenti retail italiani/europei che vogliono risparmiare e investire in modo guidato.
 
-**Revenue Model:** Fee dell'1% (min 1Ä) su depositi, prelievi, investimenti e profitti.
+**Revenue Model:** Fee dell'1% (min 1‚Ç¨) su depositi, prelievi, investimenti e profitti.
 
 ---
 
-## ?? User Personas
+##  User Personas
 
 ### 1. **Investor User** (Utente Risparmiatore)
-- Et‡: 25-45 anni
+- Et√†: 25-45 anni
 - Obiettivo: Risparmiare e iniziare a investire
 - Pain Point: Non sa da dove iniziare con gli investimenti
 - Valore offerto: Percorso guidato dal risparmio all'investimento
@@ -30,38 +30,38 @@
 
 ---
 
-## ?? User Journey
+##  User Journey
 
 ### Phase 1: Onboarding & KYC
 ```
 1. Registrazione (Email/Social + Keycloak OIDC)
-   ?
+   
 2. KYC Verification (carica documenti ID)
-   ?
+   
 3. Creazione account (2 obiettivi default creati automaticamente)
-   - ?? Fondo Emergenza (svincolabile)
-   - ?? Fondo Investimenti (bloccato fino a soglia)
+   -  Fondo Emergenza (svincolabile)
+   -  Fondo Investimenti (bloccato fino a soglia)
 ```
 
 ### Phase 2: Risparmio
 ```
 4. Collegamento conto bancario (future: Open Banking API)
-   ?
-5. Deposito fondi in virtual wallet (fee 1%, min 1Ä)
-   ?
+   
+5. Deposito fondi in virtual wallet (fee 1%, min 1‚Ç¨)
+   
 6. Allocazione fondi su obiettivi:
    - Automatico: 50% Emergenza, 50% Investimenti
    - Manuale: crea obiettivi personalizzati (Vacanze, Auto, ecc.)
-   ?
+   
 7. Auto-save ricorrente (settimanale/mensile)
 ```
 
 ### Phase 3: Sblocco Investimenti
 ```
-8. Fondo Investimenti raggiunge soglia (es. 5000Ä)
-   ?
+8. Fondo Investimenti raggiunge soglia (es. 5000‚Ç¨)
+   
 9. Notifica: "Sblocca marketplace consulenti!"
-   ?
+   
 10. Compilazione RiskProfile (MIFID II compliant)
 ```
 
@@ -72,20 +72,20 @@
     - Rating utenti
     - Commissioni
     - Anni esperienza
-    ?
+    
 12. Prenotazione call conoscitiva (calendly-style)
-    ?
+    
 13. Attivazione rapporto consulente-investitore
 ```
 
 ### Phase 5: Investimento
 ```
 14. Consulente propone portfolio personalizzato
-    ?
+    
 15. Utente approva e trasferisce fondi da "Fondo Investimenti"
-    ?
+    
 16. Acquisto prodotti finanziari (azioni, ETF, fondi)
-    ?
+    
 17. Tracking performance in real-time
 ```
 
@@ -95,48 +95,48 @@
     - Primo deposito (+100 XP)
     - Primo obiettivo raggiunto (+200 XP)
     - Primo investimento (+500 XP)
-    ?
+    
 19. Unlock badge:
-    - "First Saver" ??
-    - "Investment Starter" ??
-    - "Portfolio Builder" ??
-    ?
+    - "First Saver" 
+    - "Investment Starter" 
+    - "Portfolio Builder" 
+    
 20. Completa challenge:
-    - "Risparmia 1000Ä in 30 giorni" (reward: 50Ä bonus)
+    - "Risparmia 1000‚Ç¨ in 30 giorni" (reward: 50‚Ç¨ bonus)
 ```
 
 ---
 
-## ?? Revenue Model
+##  Revenue Model
 
 ### Platform Fees (GoalGrow Revenue)
 
 | Transaction Type | Fee | Minimum | Example |
 |------------------|-----|---------|---------|
-| Deposit | 1% | 1Ä | 300Ä deposit = 3Ä fee |
-| Withdrawal | 1% | 1Ä | 200Ä withdrawal = 2Ä fee |
-| Investment | 1% | 1Ä | 5000Ä investment = 50Ä fee |
-| Investment Profit | 1% | 1Ä | 1000Ä profit = 10Ä fee |
-| Goal Transfer | 1% | 1Ä | Transfer 500Ä = 5Ä fee |
+| Deposit | 1% | 1‚Ç¨ | 300‚Ç¨ deposit = 3‚Ç¨ fee |
+| Withdrawal | 1% | 1‚Ç¨ | 200‚Ç¨ withdrawal = 2‚Ç¨ fee |
+| Investment | 1% | 1‚Ç¨ | 5000‚Ç¨ investment = 50‚Ç¨ fee |
+| Investment Profit | 1% | 1‚Ç¨ | 1000‚Ç¨ profit = 10‚Ç¨ fee |
+| Goal Transfer | 1% | 1‚Ç¨ | Transfer 500‚Ç¨ = 5‚Ç¨ fee |
 
 **Estimated Revenue:**
-- User con 10KÄ risparmiati/anno = ~150Ä fee/anno
-- 1,000 utenti attivi = 150KÄ/anno
-- 10,000 utenti attivi = 1.5MÄ/anno
+- User con 10K‚Ç¨ risparmiati/anno = ~150‚Ç¨ fee/anno
+- 1,000 utenti attivi = 150K‚Ç¨/anno
+- 10,000 utenti attivi = 1.5M‚Ç¨/anno
 
 ### Consultant Commissions (Consultant Revenue)
 
 | Service | Commission | Example |
 |---------|------------|---------|
-| Investment Management | 0.5-2% AUM/anno | 100KÄ portfolio = 500-2000Ä/anno |
-| One-time Advisory | Flat fee | 500-2000Ä |
-| Performance Fee | 10-20% profits | 10KÄ profit = 1-2KÄ |
+| Investment Management | 0.5-2% AUM/anno | 100K‚Ç¨ portfolio = 500-2000‚Ç¨/anno |
+| One-time Advisory | Flat fee | 500-2000‚Ç¨ |
+| Performance Fee | 10-20% profits | 10K‚Ç¨ profit = 1-2K‚Ç¨ |
 
-**GoalGrow's Cut:** 20% delle commissioni consulente (es. su 1000Ä, prendi 200Ä)
+**GoalGrow's Cut:** 20% delle commissioni consulente (es. su 1000‚Ç¨, prendi 200‚Ç¨)
 
 ---
 
-## ??? Technical Architecture
+##  Technical Architecture
 
 ### Platform Type
 - **Primary**: Blazor Web App (Server-Side)
@@ -171,61 +171,61 @@
 
 ---
 
-## ?? Data Model Summary
+##  Data Model Summary
 
 ### Core Entities
 
 ```
 User (abstract)
-??? InversotorUser
-?   ??? VirtualWalletBalance
-?   ??? KycVerification (1:1)
-?   ??? RiskProfile (1:1)
-?   ??? Goals (1:N)
-?   ??? Portfolios (1:N)
-?   ??? UserConsultantRelationship (1:1)
-?
-??? ConsultantUser
-    ??? LicenseNumber
-    ??? CommissionRate
-    ??? Clients (1:N UserConsultantRelationship)
-    ??? Commissions (1:N CommissionTransaction)
+ InversotorUser
+    VirtualWalletBalance
+    KycVerification (1:1)
+    RiskProfile (1:1)
+    Goals (1:N)
+    Portfolios (1:N)
+    UserConsultantRelationship (1:1)
+
+ ConsultantUser
+     LicenseNumber
+     CommissionRate
+     Clients (1:N UserConsultantRelationship)
+     Commissions (1:N CommissionTransaction)
 
 Goal (con 2 default system goals)
-??? Emergency (IsSystemGoal=true, Unlockable)
-??? Investment (IsSystemGoal=true, Locked until threshold)
-??? Custom Goals (Vacanze, Auto, ecc.)
+ Emergency (IsSystemGoal=true, Unlockable)
+ Investment (IsSystemGoal=true, Locked until threshold)
+ Custom Goals (Vacanze, Auto, ecc.)
 
 FundMovement (Virtual Wallet)
-??? Deposit (User Account ? Company Account)
-??? Withdrawal (Company Account ? User Account)
-??? Investment (Company Account ? Portfolio)
+ Deposit (User Account  Company Account)
+ Withdrawal (Company Account  User Account)
+ Investment (Company Account  Portfolio)
 
 PlatformFee
-??? On Deposit (1%, min 1Ä)
-??? On Withdrawal (1%, min 1Ä)
-??? On Investment/Profit (1%, min 1Ä)
+ On Deposit (1%, min 1‚Ç¨)
+ On Withdrawal (1%, min 1‚Ç¨)
+ On Investment/Profit (1%, min 1‚Ç¨)
 ```
 
 ---
 
-## ?? Compliance & Security
+##  Compliance & Security
 
 ### KYC/AML Requirements
 
 **For All Users:**
-- ? Email verification
-- ? Phone verification (OTP)
-- ? Document upload (ID/Passport)
-- ? Selfie verification
-- ? Proof of address
-- ? PEP screening
-- ? Sanctions list check
+-  Email verification
+-  Phone verification (OTP)
+-  Document upload (ID/Passport)
+-  Selfie verification
+-  Proof of address
+-  PEP screening
+-  Sanctions list check
 
 **For Consultants (Additional):**
-- ? Professional license verification
-- ? CONSOB registration (Italy)
-- ? Background check
+-  Professional license verification
+-  CONSOB registration (Italy)
+-  Background check
 
 ### Data Protection
 - **GDPR Compliant**: EU data residency, right to be forgotten
@@ -239,7 +239,7 @@ PlatformFee
 
 ---
 
-## ?? Gamification Mechanics
+##  Gamification Mechanics
 
 ### Level System
 ```
@@ -266,13 +266,13 @@ Level 5: Wealth Master (1500+ XP)
 - **Special**: "Early Adopter", "Beta Tester"
 
 ### Challenges (with Money Rewards)
-- "Save 1000Ä in 30 days" ? 50Ä reward
-- "Complete 10 recurring deposits" ? 20Ä reward
-- "Reach investment threshold" ? 100Ä reward
+- "Save 1000‚Ç¨ in 30 days"  50‚Ç¨ reward
+- "Complete 10 recurring deposits"  20‚Ç¨ reward
+- "Reach investment threshold"  100‚Ç¨ reward
 
 ---
 
-## ?? Success Metrics (KPIs)
+##  Success Metrics (KPIs)
 
 ### User Acquisition
 - Monthly Active Users (MAU)
@@ -306,69 +306,69 @@ Level 5: Wealth Master (1500+ XP)
 
 ---
 
-## ?? MVP (Minimum Viable Product)
+##  MVP (Minimum Viable Product)
 
 ### Phase 1: Core Savings (3 months)
-- ? User registration + KYC
-- ? Virtual wallet deposit/withdrawal
-- ? Goal creation (Emergency + Investment + Custom)
-- ? Auto-save recurring deposits
-- ? Basic transaction tracking
+-  User registration + KYC
+-  Virtual wallet deposit/withdrawal
+-  Goal creation (Emergency + Investment + Custom)
+-  Auto-save recurring deposits
+-  Basic transaction tracking
 
 ### Phase 2: Consultant Marketplace (2 months)
-- ? Consultant registration + verification
-- ? RiskProfile questionnaire
-- ? Marketplace listing and search
-- ? Consultant-investor matching
-- ? In-app messaging/video calls
+-  Consultant registration + verification
+-  RiskProfile questionnaire
+-  Marketplace listing and search
+-  Consultant-investor matching
+-  In-app messaging/video calls
 
 ### Phase 3: Investment System (3 months)
-- ? Portfolio creation
-- ? Investment product catalog
-- ? Buy/Sell investments
-- ? Performance tracking
-- ? Commission tracking
+-  Portfolio creation
+-  Investment product catalog
+-  Buy/Sell investments
+-  Performance tracking
+-  Commission tracking
 
 ### Phase 4: Gamification (1 month)
-- ? XP and levels
-- ? Badge system
-- ? Challenges with rewards
-- ? Leaderboard
+-  XP and levels
+-  Badge system
+-  Challenges with rewards
+-  Leaderboard
 
 ### Phase 5: Mobile App (2 months)
-- ? MAUI cross-platform app
-- ? Push notifications
-- ? Biometric login
+-  MAUI cross-platform app
+-  Push notifications
+-  Biometric login
 
 **Total MVP Timeline: 11 months**
 
 ---
 
-## ?? Future Roadmap
+##  Future Roadmap
 
 ### Year 1
 - Launch in Italy
 - 1,000 active users
 - 50 verified consultants
-- Ä5M TVL (Total Value Locked)
+- ‚Ç¨5M TVL (Total Value Locked)
 
 ### Year 2
 - Expand to Spain, France, Germany
 - 10,000 active users
 - 500 consultants
-- Ä50M TVL
+- ‚Ç¨50M TVL
 - Add crypto investments
 
 ### Year 3
 - Pan-European expansion
 - 100,000 users
 - B2B offering (white-label for banks)
-- Ä500M TVL
+- ‚Ç¨500M TVL
 - IPO considerations
 
 ---
 
-## ?? Competitive Advantages
+##  Competitive Advantages
 
 1. **Gamification**: No competitor has true gamification with monetary rewards
 2. **Guided Path**: Clear journey from saving to investing (not overwhelming)
@@ -378,7 +378,7 @@ Level 5: Wealth Master (1500+ XP)
 
 ---
 
-## ?? Risks & Mitigation
+##  Risks & Mitigation
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
@@ -391,7 +391,7 @@ Level 5: Wealth Master (1500+ XP)
 
 ---
 
-## ?? References
+##  References
 
 - [AUTHENTICATION_ARCHITECTURE.md](AUTHENTICATION_ARCHITECTURE.md) - Auth strategy
 - [ARCHITECTURE_V2.md](ARCHITECTURE_V2.md) - Technical architecture
