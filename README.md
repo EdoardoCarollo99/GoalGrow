@@ -1,4 +1,4 @@
-# ?? GoalGrow
+#  GoalGrow
 
 > Smart Financial Management Platform with Savings Goals, Investment Marketplace & Gamification
 
@@ -8,21 +8,21 @@
 
 ---
 
-## ?? What is GoalGrow?
+##  What is GoalGrow
 
 **GoalGrow** is a fintech platform that helps users save money through guided goals and connect with financial consultants when they're ready to invest.
 
 ### Key Features
 
-- ?? **Smart Savings** - Auto-created Emergency & Investment funds
-- ?? **Goal Tracking** - Custom savings goals (vacation, car, education)
-- ?? **Investment Marketplace** - Connect with verified financial consultants
-- ?? **Gamification** - XP, levels, badges, and challenges with rewards
-- ?? **KYC Compliant** - Secure identity verification
+-  **Smart Savings** - Auto-created Emergency & Investment funds
+-  **Goal Tracking** - Custom savings goals (vacation, car, education)
+-  **Investment Marketplace** - Connect with verified financial consultants
+-  **Gamification** - XP, levels, badges, and challenges with rewards
+-  **KYC Compliant** - Secure identity verification
 
 ---
 
-## ??? Technology Stack
+##  Technology Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -35,7 +35,7 @@
 
 ---
 
-## ?? Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -62,9 +62,9 @@ dotnet run
 ```
 
 This will:
-- ? Create database schema
-- ? Seed sample users, goals, and challenges
-- ? Generate test data for development
+-  Create database schema
+-  Seed sample users, goals, and challenges
+-  Generate test data for development
 
 ### 3. Start Keycloak (Authentication)
 
@@ -91,7 +91,7 @@ dotnet run
 
 ---
 
-## ?? Project Status
+##  Project Status
 
 **Current Phase:** Foundation & Database Setup  
 **MVP Target:** Q4 2025 (11 months)
@@ -100,7 +100,7 @@ See [CHANGELOG.md](CHANGELOG.md) for completed work and [docs/ROADMAP.md](docs/R
 
 ---
 
-## ?? Documentation
+##  Documentation
 
 Comprehensive documentation is available in the [`/docs`](docs/) folder:
 
@@ -111,44 +111,44 @@ Comprehensive documentation is available in the [`/docs`](docs/) folder:
 - **[API Reference](docs/API_REFERENCE.md)** - Endpoints (future)
 - **[Roadmap](docs/ROADMAP.md)** - Development timeline
 
-?? **Diagrams:** [docs/diagrams/](docs/diagrams/)
+ **Diagrams:** [docs/diagrams/](docs/diagrams/)
 
 ---
 
-## ?? Business Model
+##  Business Model
 
 GoalGrow generates revenue through:
-- **Platform Fees:** 1% (min €1) on deposits, withdrawals, investments
+- **Platform Fees:** 1% (min â‚¬1) on deposits, withdrawals, investments
 - **Consultant Marketplace:** 20% of consultant commissions
 
 **Target Market:** Retail users (25-45 years) in Italy/EU who want guided savings and investment advice.
 
 ---
 
-## ?? User Journey
+##  User Journey
 
 ```
-Registration ? KYC Verification ? Save Money ? Reach Threshold ? 
-Find Consultant ? Invest ? Track Performance ? Earn Rewards
+Registration  KYC Verification  Save Money  Reach Threshold  
+Find Consultant  Invest  Track Performance  Earn Rewards
 ```
 
 See [docs/USER_JOURNEY.md](docs/USER_JOURNEY.md) for detailed flows.
 
 ---
 
-## ?? Development
+##  Development
 
 ### Project Structure
 
 ```
 GoalGrow/
-??? GoalGrow.Entity/          # Domain models & value objects
-??? GoalGrow.Data/            # EF Core DbContext & configurations
-??? GoalGrow.Migration/       # Database migrations & seeding
-??? GoalGrow.Api/             # Web API (future)
-??? GoalGrow.Web/             # Blazor Web App (future)
-??? docs/                     # Documentation
-??? Diagrams/                 # PlantUML diagrams
+ GoalGrow.Entity/          # Domain models & value objects
+ GoalGrow.Data/            # EF Core DbContext & configurations
+ GoalGrow.Migration/       # Database migrations & seeding
+ GoalGrow.Api/             # Web API (future)
+ GoalGrow.Web/             # Blazor Web App (future)
+ docs/                     # Documentation
+ Diagrams/                 # PlantUML diagrams
 ```
 
 ### Running Migrations
@@ -178,7 +178,7 @@ Run: `dotnet run` in `GoalGrow.Migration` project.
 
 ---
 
-## ?? Contributing
+##  Contributing
 
 Contributions are welcome! Please:
 1. Fork the repository
@@ -189,13 +189,13 @@ Contributions are welcome! Please:
 
 ---
 
-## ?? License
+##  License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
 
 ---
 
-## ?? Contact
+##  Contact
 
 **Edoardo Carollo**  
 - GitHub: [@EdoardoCarollo99](https://github.com/EdoardoCarollo99)
@@ -203,7 +203,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
 
 ---
 
-## ? Acknowledgments
+##  Acknowledgments
 
 Built with modern .NET practices:
 - Domain-Driven Design (DDD)
@@ -213,4 +213,4 @@ Built with modern .NET practices:
 
 ---
 
-**?? Ready to start?** See [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md)
+** Ready to start** See [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md)
