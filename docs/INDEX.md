@@ -1,17 +1,17 @@
-# ?? GoalGrow Documentation
+#  GoalGrow Documentation
 
 Welcome to the GoalGrow documentation hub. This is your central reference for understanding and working with the platform.
 
 ---
 
-## ?? Documentation Structure
+##  Documentation Structure
 
-### ?? Getting Started
+###  Getting Started
 - **[Getting Started Guide](GETTING_STARTED.md)** - Setup and first steps
 - **[System Overview](SYSTEM_OVERVIEW.md)** - Architecture and components
 - **[User Journey](USER_JOURNEY.md)** - End-to-end user experience
 
-### ?? Technical Documentation
+###  Technical Documentation
 - **[Database Schema](technical/DATABASE.md)** - Tables, relationships, migrations
 - **[Authentication](technical/AUTHENTICATION.md)** - Keycloak & JWT setup
 - **[API Reference](technical/API_REFERENCE.md)** - REST API endpoints *(coming soon)*
@@ -19,32 +19,32 @@ Welcome to the GoalGrow documentation hub. This is your central reference for un
 - **[Value Objects](technical/VALUE_OBJECTS.md)** - Money, DateRange, Rating
 - **[Services](technical/SERVICES.md)** - Business logic layer *(coming soon)*
 
-### ?? Architecture
+###  Architecture
 - **[Architecture Overview](technical/ARCHITECTURE.md)** - Clean Architecture layers
 - **[Domain Modules](technical/MODULES.md)** - Financial, Investment, Gamification
 - **[Design Patterns](technical/DESIGN_PATTERNS.md)** - DDD, Repository, CQRS
 
-### ?? Diagrams
+###  Diagrams
 - **[System Overview](diagrams/01-SystemOverview.puml)** - High-level components
 - **[User Management](diagrams/02-UserManagement.puml)** - Auth & users
 - **[Financial Core](diagrams/03-FinancialCore.puml)** - Accounts, goals, budgets
 - **[Investment System](diagrams/04-InvestmentSystem.puml)** - Portfolios & products
 - **[Gamification](diagrams/05-Gamification.puml)** - XP, badges, challenges
 
-### ?? Development
+###  Development
 - **[Roadmap](ROADMAP.md)** - Feature timeline (11-month MVP)
 - **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
 - **[Testing Strategy](technical/TESTING.md)** - Unit, integration, E2E
 - **[Deployment](technical/DEPLOYMENT.md)** - Azure setup & CI/CD
 
-### ?? Business
+###  Business
 - **[Business Requirements](BUSINESS_REQUIREMENTS.md)** - Goals, KPIs, revenue model
 - **[Compliance](technical/COMPLIANCE.md)** - GDPR, KYC/AML, MIFID II
 - **[Security](technical/SECURITY.md)** - Best practices & audit
 
 ---
 
-## ?? Quick Reference
+##  Quick Reference
 
 ### Common Tasks
 
@@ -69,7 +69,7 @@ Welcome to the GoalGrow documentation hub. This is your central reference for un
 
 ---
 
-## ?? External Resources
+##  External Resources
 
 - [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) by Uncle Bob
 - [Domain-Driven Design](https://martinfowler.com/bliki/DomainDrivenDesign.html) by Martin Fowler
@@ -79,7 +79,7 @@ Welcome to the GoalGrow documentation hub. This is your central reference for un
 
 ---
 
-## ?? Support
+##  Support
 
 ### Getting Help
 
@@ -98,7 +98,7 @@ When reporting bugs, include:
 
 ---
 
-## ?? Documentation Standards
+##  Documentation Standards
 
 ### File Naming
 - Use `SCREAMING_SNAKE_CASE.md` for root-level docs
@@ -106,49 +106,49 @@ When reporting bugs, include:
 - Use `kebab-case.puml` for diagrams
 
 ### Structure
-- Use emoji for better readability (?? ?? ??)
+- Use emoji for better readability (  )
 - Include table of contents for long docs
 - Link between related documents
 - Keep code examples up-to-date
 
 ---
 
-## ??? Document Map
+##  Document Map
 
 ```
 docs/
-??? INDEX.md (you are here)
-??? GETTING_STARTED.md
-??? SYSTEM_OVERVIEW.md
-??? USER_JOURNEY.md
-??? BUSINESS_REQUIREMENTS.md
-??? ROADMAP.md
-??? CONTRIBUTING.md
-??? diagrams/
-?   ??? 01-SystemOverview.puml
-?   ??? 02-UserManagement.puml
-?   ??? 03-FinancialCore.puml
-?   ??? 04-InvestmentSystem.puml
-?   ??? 05-Gamification.puml
-??? technical/
-    ??? ARCHITECTURE.md
-    ??? DATABASE.md
-    ??? AUTHENTICATION.md
-    ??? DOMAIN_MODELS.md
-    ??? VALUE_OBJECTS.md
-    ??? MODULES.md
-    ??? DESIGN_PATTERNS.md
-    ??? API_REFERENCE.md
-    ??? SERVICES.md
-    ??? TESTING.md
-    ??? DEPLOYMENT.md
-    ??? COMPLIANCE.md
-    ??? SECURITY.md
+ INDEX.md (you are here)
+ GETTING_STARTED.md
+ SYSTEM_OVERVIEW.md
+ USER_JOURNEY.md
+ BUSINESS_REQUIREMENTS.md
+ ROADMAP.md
+ CONTRIBUTING.md
+ diagrams/
+    01-SystemOverview.puml
+    02-UserManagement.puml
+    03-FinancialCore.puml
+    04-InvestmentSystem.puml
+    05-Gamification.puml
+ technical/
+     ARCHITECTURE.md
+     DATABASE.md
+     AUTHENTICATION.md
+     DOMAIN_MODELS.md
+     VALUE_OBJECTS.md
+     MODULES.md
+     DESIGN_PATTERNS.md
+     API_REFERENCE.md
+     SERVICES.md
+     TESTING.md
+     DEPLOYMENT.md
+     COMPLIANCE.md
+     SECURITY.md
 ```
 
 ---
 
-## ?? Keeping Documentation Updated
+##  Keeping Documentation Updated
 
 - Update docs when changing code
 - Link PRs to related documentation updates
