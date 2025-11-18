@@ -1,6 +1,6 @@
 # GoalGrow - Architecture Documentation
 
-## ?? Table of Contents
+##  Table of Contents
 - [Overview](#overview)
 - [Architecture Layers](#architecture-layers)
 - [Domain Modules](#domain-modules)
@@ -10,9 +10,9 @@
 
 ---
 
-## ?? Overview
+##  Overview
 
-GoalGrow è un'applicazione finanziaria modulare per la gestione di budget, obiettivi, investimenti e gamification.
+GoalGrow Ã¨ un'applicazione finanziaria modulare per la gestione di budget, obiettivi, investimenti e gamification.
 
 ### Principi Architetturali
 - **Domain-Driven Design (DDD)**: Separazione dei domini
@@ -22,35 +22,35 @@ GoalGrow è un'applicazione finanziaria modulare per la gestione di budget, obiet
 
 ---
 
-## ??? Architecture Layers
+##  Architecture Layers
 
 ```
-???????????????????????????????????????
-?         Presentation Layer          ?
-?        (API/Web/Desktop)            ?
-???????????????????????????????????????
-              ?
-???????????????????????????????????????
-?        Application Layer            ?
-?    (Use Cases / Services)           ?
-???????????????????????????????????????
-              ?
-???????????????????????????????????????
-?          Domain Layer               ?
-?  (Entities / Value Objects)         ?
-?     GoalGrow.Entity                 ?
-???????????????????????????????????????
-              ?
-???????????????????????????????????????
-?     Infrastructure Layer            ?
-?  (Data Access / External Services)  ?
-?       GoalGrow.Data                 ?
-???????????????????????????????????????
+
+         Presentation Layer          
+        (API/Web/Desktop)            
+
+              
+
+        Application Layer            
+    (Use Cases / Services)           
+
+              
+
+          Domain Layer               
+  (Entities / Value Objects)         
+     GoalGrow.Entity                 
+
+              
+
+     Infrastructure Layer            
+  (Data Access / External Services)  
+       GoalGrow.Data                 
+
 ```
 
 ---
 
-## ?? Domain Modules
+##  Domain Modules
 
 ### 1. **User Management Module**
 Gestione utenti e autenticazione.
@@ -124,7 +124,7 @@ Sistema di notifiche utente.
 
 ---
 
-## ??? Database Contexts
+##  Database Contexts
 
 ### Main Context
 ```csharp
@@ -146,7 +146,7 @@ GamificationDbContext : DbContext    // Gamification module
 
 ---
 
-## ?? Design Patterns
+##  Design Patterns
 
 ### 1. **Value Objects**
 Oggetti immutabili che rappresentano concetti del dominio.
@@ -193,8 +193,8 @@ Inheritance mapping per User hierarchy.
 
 ```csharp
 User (abstract)
-??? InversotorUser
-??? ConsultantUser
+ InversotorUser
+ ConsultantUser
 ```
 
 **Configuration:**
@@ -221,7 +221,7 @@ IGamificationRepository
 
 ---
 
-## ?? PlantUML Diagrams
+##  PlantUML Diagrams
 
 ### System Overview
 
@@ -291,7 +291,7 @@ class ConsultantUser {
 
 class UserConsultantRelationship {
     + Status: RelationshipStatus
-    + Rating: int?
+    + Rating: int
 }
 
 User <|-- InversotorUser
@@ -416,34 +416,34 @@ User "1" --> "0..1" UserLevel
 
 ---
 
-## ?? Configuration Organization
+##  Configuration Organization
 
 ```
 GoalGrow.Data/
-??? Configurations/
-    ??? User/
-    ?   ??? UserConfiguration.cs
-    ?   ??? InversotorUserConfiguration.cs
-    ?   ??? ConsultantUserConfiguration.cs
-    ??? Financial/
-    ?   ??? AccountConfiguration.cs
-    ?   ??? TransactionConfiguration.cs
-    ?   ??? BudgetConfiguration.cs
-    ?   ??? GoalConfiguration.cs
-    ??? Investment/
-    ?   ??? PortfolioConfiguration.cs
-    ?   ??? InvestmentConfiguration.cs
-    ?   ??? RiskProfileConfiguration.cs
-    ?   ??? FundMovementConfiguration.cs
-    ??? Gamification/
-        ??? BadgeConfiguration.cs
-        ??? ChallengeConfiguration.cs
-        ??? UserLevelConfiguration.cs
+ Configurations/
+     User/
+        UserConfiguration.cs
+        InversotorUserConfiguration.cs
+        ConsultantUserConfiguration.cs
+     Financial/
+        AccountConfiguration.cs
+        TransactionConfiguration.cs
+        BudgetConfiguration.cs
+        GoalConfiguration.cs
+     Investment/
+        PortfolioConfiguration.cs
+        InvestmentConfiguration.cs
+        RiskProfileConfiguration.cs
+        FundMovementConfiguration.cs
+     Gamification/
+         BadgeConfiguration.cs
+         ChallengeConfiguration.cs
+         UserLevelConfiguration.cs
 ```
 
 ---
 
-## ?? Further Reading
+##  Further Reading
 
 - [Domain-Driven Design](https://martinfowler.com/bliki/DomainDrivenDesign.html)
 - [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
@@ -452,7 +452,7 @@ GoalGrow.Data/
 
 ---
 
-## ?? Notes
+##  Notes
 
 - Tutti i DbContext condividono lo stesso database fisico
 - Le migration vengono gestite tramite `GoalGrowDbContext` principale
