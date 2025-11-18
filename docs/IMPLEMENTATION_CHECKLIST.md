@@ -1,6 +1,6 @@
-# ? GoalGrow - Implementation Checklist
+#  GoalGrow - Implementation Checklist
 
-## ?? Overview
+##  Overview
 Use this checklist to track progress on implementing GoalGrow MVP.
 
 ---
@@ -141,9 +141,9 @@ Use this checklist to track progress on implementing GoalGrow MVP.
 
 ### AutoMapper Profiles
 - [ ] Create `AutoMapperProfile.cs`
-  - [ ] User ? UserResponse
-  - [ ] Goal ? GoalResponse
-  - [ ] KycVerification ? KycStatusResponse
+  - [ ] User  UserResponse
+  - [ ] Goal  GoalResponse
+  - [ ] KycVerification  KycStatusResponse
 
 ### API Controllers
 - [ ] `AuthController.cs`
@@ -253,7 +253,7 @@ Use this checklist to track progress on implementing GoalGrow MVP.
 - [ ] Deposit flow:
   - [ ] User selects goal
   - [ ] Enters amount
-  - [ ] Platform fee calculated (1%, min 1€)
+  - [ ] Platform fee calculated (1%, min 1Â€)
   - [ ] Confirmation screen
   - [ ] Transaction created
   - [ ] Balance updated
@@ -265,7 +265,7 @@ Use this checklist to track progress on implementing GoalGrow MVP.
 
 ### KYC Workflow
 - [ ] Document upload to Azure Blob Storage
-- [ ] Status tracking (Pending ? Under Review ? Verified)
+- [ ] Status tracking (Pending  Under Review  Verified)
 - [ ] Email notification on status change
 - [ ] Admin dashboard for manual verification
 - [ ] Unlock "kyc-verified" role in Keycloak after approval
@@ -303,9 +303,9 @@ Use this checklist to track progress on implementing GoalGrow MVP.
   - [ ] Test cannot delete system goals
   - [ ] Test deposit calculates fee correctly
 - [ ] `PlatformFeeService` tests
-  - [ ] Test fee calculation (1%, min 1€)
-  - [ ] Test 300€ deposit = 3€ fee
-  - [ ] Test 50€ deposit = 1€ fee (minimum)
+  - [ ] Test fee calculation (1%, min 1Â€)
+  - [ ] Test 300Â€ deposit = 3Â€ fee
+  - [ ] Test 50Â€ deposit = 1Â€ fee (minimum)
 - [ ] `KycService` tests
   - [ ] Test KYC workflow states
   - [ ] Test rejection flow
@@ -439,7 +439,7 @@ Use this checklist to track progress on implementing GoalGrow MVP.
 
 ---
 
-## ?? Progress Tracking
+##  Progress Tracking
 
 **Overall Progress:** 0 / 200+ tasks completed
 
@@ -457,7 +457,7 @@ Use this checklist to track progress on implementing GoalGrow MVP.
 
 ---
 
-## ?? Next Action
+##  Next Action
 
 **Start here:**
 ```powershell
@@ -473,4 +473,4 @@ git commit -m "refactor: reorganize EF configurations by module"
 git push origin feature/database-refactoring
 ```
 
-**Then proceed with checklist above!** ?
+**Then proceed with checklist above!** 
