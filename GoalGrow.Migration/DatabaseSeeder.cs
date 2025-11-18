@@ -511,8 +511,31 @@ namespace GoalGrow.Migration
             _context.InvestorUsers.Add(investor);
             await _context.SaveChangesAsync();
 
+            // KYC Verification
+            var kycStatus = createInvestments ? KycStatus.Verified : KycStatus.Pending;
+            var kyc = new KycVerification
+            {
+                UserId = investor.Id,
+                Status = kycStatus,
+                DocumentType = "ID",
+                DocumentNumber = fiscalCode,
+                DocumentExpiryDate = DateTime.UtcNow.AddYears(5),
+                DocumentFrontImageUrl = $"/kyc/{investor.Id}/id_front.jpg",
+                DocumentBackImageUrl = $"/kyc/{investor.Id}/id_back.jpg",
+                SelfieImageUrl = $"/kyc/{investor.Id}/selfie.jpg",
+                ProofOfAddressImageUrl = $"/kyc/{investor.Id}/utility_bill.pdf",
+                SubmittedAt = DateTime.UtcNow.AddDays(-30),
+                VerifiedAt = createInvestments ? DateTime.UtcNow.AddDays(-28) : null,
+                VerificationMethod = createInvestments ? "Manual" : "Pending",
+                RiskScore = riskTolerance == RiskTolerance.VeryConservative ? 15 : 35,
+                RiskLevel = riskTolerance == RiskTolerance.VeryConservative ? "Low" : "Medium",
+                IsPoliticallyExposed = false,
+                IsOnSanctionsList = false
+            };
+            _context.KycVerifications.Add(kyc);
+
             // UserLevel
-            var level = new UserLevel(investor.Id);
+            var level = new UserLevel(investor.Id, 1, "Beginner");
             if (createInvestments)
             {
                 level.TotalPoints = 250;
@@ -566,15 +589,16 @@ namespace GoalGrow.Migration
             account.Balance = initialBalance;
             account.AvailableBalance = investor.VirtualWalletBalance;
             _context.Accounts.Add(account);
+            await _context.SaveChangesAsync(); // Save account to get Id
 
             // Goal
             var goalAmount = experience == InvestmentExperience.Beginner ? 3000m : 10000m;
-            var goal = new Goal($"Obiettivo di {firstName}", goalAmount, investor.Id);
+            var targetDate = DateTime.UtcNow.AddMonths(12);
+            var goal = new Goal($"Obiettivo di {firstName}", goalAmount, targetDate, investor.Id);
             goal.Description = experience == InvestmentExperience.Beginner 
                 ? "Risparmio per vacanza" 
                 : "Fondo emergenza";
             goal.Priority = GoalPriority.High;
-            goal.TargetDate = DateTime.UtcNow.AddMonths(12);
             goal.Category = experience == InvestmentExperience.Beginner ? "Viaggi" : "Emergenze";
             goal.CurrentAmount = createInvestments ? goalAmount * 0.4m : 0m;
             _context.Goals.Add(goal);
@@ -591,6 +615,42 @@ namespace GoalGrow.Migration
             budget.SpentAmount = 450m;
             budget.AlertThreshold = 80;
             _context.Budgets.Add(budget);
+
+            // Transaction (deposit)
+            if (createInvestments)
+            {
+                var depositDate = DateTime.UtcNow.AddMonths(-3);
+                var depositTx = new Transaction(
+                    transactionNumber: $"TXN-{Guid.NewGuid().ToString()[..8]}",
+                    type: TransactionType.Deposit,
+                    transactionDate: depositDate,
+                    amount: initialBalance,
+                    accountId: account.Id,
+                    userId: investor.Id,
+                    balanceAfter: initialBalance
+                );
+                depositTx.Status = TransactionStatus.Completed;
+                depositTx.Category = "Deposito Iniziale";
+                depositTx.Description = "Deposito iniziale sul wallet virtuale";
+                _context.Transactions.Add(depositTx);
+                await _context.SaveChangesAsync(); // Save to get transaction Id
+
+                // Platform Fee for deposit (1%, min €1)
+                var depositFee = new PlatformFee(
+                    feeNumber: $"FEE-{Guid.NewGuid().ToString()[..8]}",
+                    userId: investor.Id,
+                    type: PlatformFeeType.Deposit,
+                    baseAmount: initialBalance,
+                    feePercentage: 1.00m,
+                    minimumFee: 1.00m
+                );
+                depositFee.RelatedTransactionId = depositTx.Id;
+                depositFee.TransactionDate = depositDate;
+                depositFee.Status = FeeStatus.Collected;
+                depositFee.CollectedAt = depositDate.AddHours(1);
+                depositFee.Description = $"Fee su deposito di €{initialBalance:N2}";
+                _context.PlatformFees.Add(depositFee);
+            }
 
             // Investimenti se richiesti
             if (createInvestments)
@@ -646,6 +706,38 @@ namespace GoalGrow.Migration
             investment2.InvestmentDate = DateTime.UtcNow.AddMonths(-2);
 
             _context.Investments.AddRange(investment1, investment2);
+            await _context.SaveChangesAsync(); // Save to get investment Ids
+
+            // Platform Fees for investments
+            var fee1 = new PlatformFee(
+                feeNumber: $"FEE-{Guid.NewGuid().ToString()[..8]}",
+                userId: investor.Id,
+                type: PlatformFeeType.Investment,
+                baseAmount: investment1.TotalAmount,
+                feePercentage: 1.00m,
+                minimumFee: 1.00m
+            );
+            fee1.RelatedInvestmentId = investment1.Id;
+            fee1.TransactionDate = investment1.InvestmentDate;
+            fee1.Status = FeeStatus.Collected;
+            fee1.CollectedAt = investment1.InvestmentDate.AddHours(2);
+            fee1.Description = $"Fee su investimento in {vwce.Name}";
+
+            var fee2 = new PlatformFee(
+                feeNumber: $"FEE-{Guid.NewGuid().ToString()[..8]}",
+                userId: investor.Id,
+                type: PlatformFeeType.Investment,
+                baseAmount: investment2.TotalAmount,
+                feePercentage: 1.00m,
+                minimumFee: 1.00m
+            );
+            fee2.RelatedInvestmentId = investment2.Id;
+            fee2.TransactionDate = investment2.InvestmentDate;
+            fee2.Status = FeeStatus.Collected;
+            fee2.CollectedAt = investment2.InvestmentDate.AddHours(2);
+            fee2.Description = $"Fee su investimento in {aapl.Name}";
+
+            _context.PlatformFees.AddRange(fee1, fee2);
 
             portfolio.TotalInvested = investment1.TotalAmount + investment2.TotalAmount;
             portfolio.CurrentValue = portfolio.TotalInvested * 1.08m;
@@ -661,6 +753,23 @@ namespace GoalGrow.Migration
             fundMovement.Status = FundMovementStatus.Completed;
             fundMovement.CompletedDate = DateTime.UtcNow.AddMonths(-3);
             _context.FundMovements.Add(fundMovement);
+            await _context.SaveChangesAsync(); // Save fund movement
+
+            // Platform Fee for fund movement
+            var fmFee = new PlatformFee(
+                feeNumber: $"FEE-{Guid.NewGuid().ToString()[..8]}",
+                userId: investor.Id,
+                type: PlatformFeeType.Deposit,
+                baseAmount: fundMovement.Amount,
+                feePercentage: 1.00m,
+                minimumFee: 1.00m
+            );
+            fmFee.RelatedFundMovementId = fundMovement.Id;
+            fmFee.TransactionDate = fundMovement.CompletedDate.Value;
+            fmFee.Status = FeeStatus.Collected;
+            fmFee.CollectedAt = fundMovement.CompletedDate.Value.AddMinutes(30);
+            fmFee.Description = "Fee su movimento fondi";
+            _context.PlatformFees.Add(fmFee);
         }
 
         private async Task PrintStatisticsAsync()
@@ -672,6 +781,12 @@ namespace GoalGrow.Migration
             var badgesCount = await _context.Badges.CountAsync();
             var challengesCount = await _context.Challenges.CountAsync();
             var investmentsCount = await _context.Investments.CountAsync();
+            var kycCount = await _context.KycVerifications.CountAsync();
+            var kycVerifiedCount = await _context.KycVerifications.CountAsync(k => k.Status == KycStatus.Verified);
+            var feesCount = await _context.PlatformFees.CountAsync();
+            var totalFeesCollected = await _context.PlatformFees
+                .Where(f => f.Status == FeeStatus.Collected)
+                .SumAsync(f => f.CalculatedFee);
 
             Console.WriteLine($"\n?? Statistiche Database:");
             Console.WriteLine($"  ?? Utenti totali: {usersCount}");
@@ -681,6 +796,8 @@ namespace GoalGrow.Migration
             Console.WriteLine($"  ?? Badge: {badgesCount}");
             Console.WriteLine($"  ?? Sfide: {challengesCount}");
             Console.WriteLine($"  ?? Investimenti attivi: {investmentsCount}");
+            Console.WriteLine($"  ? KYC verificati: {kycVerifiedCount}/{kycCount}");
+            Console.WriteLine($"  ?? Platform fees raccolte: €{totalFeesCollected:N2} ({feesCount} transazioni)");
         }
     }
 }

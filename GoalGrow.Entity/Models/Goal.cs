@@ -17,6 +17,17 @@ namespace GoalGrow.Entity.Models
         [MaxLength(1000)]
         public string Description { get; set; } = string.Empty;
 
+        // NEW: Tipo di obiettivo
+        [Required]
+        public GoalType Type { get; set; } = GoalType.Custom;
+
+        // NEW: Flag per obiettivi di sistema (Emergenze, Investimenti)
+        public bool IsSystemGoal { get; set; } = false;
+
+        // NEW: Soglia minima per sbloccare funzionalità (es. 5000€ per investimenti)
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? UnlockThreshold { get; set; }
+
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal TargetAmount { get; set; } = 0m;
@@ -35,12 +46,27 @@ namespace GoalGrow.Entity.Models
         [MaxLength(100)]
         public string Category { get; set; } = string.Empty;
 
+        [MaxLength(500)]
+        public string IconUrl { get; set; } = string.Empty;
+
+        // Auto-save configuration
+        public bool IsAutoSave { get; set; } = false;
+
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal AutoSaveAmount { get; set; } = 0m;
+
+        public RecurrenceFrequency? AutoSaveFrequency { get; set; }
+
+        // NEW: Possibilità di bloccare/sbloccare prelievi
+        public bool IsWithdrawalLocked { get; set; } = false;
+
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime? UpdatedAt { get; set; }
 
-        public DateTime? TargetDate { get; set; }
+        [Required]
+        public DateTime TargetDate { get; set; }
 
         public DateTime? CompletedAt { get; set; }
 
@@ -55,11 +81,13 @@ namespace GoalGrow.Entity.Models
 
         public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
-        public Goal(string name, decimal targetAmount, Guid userId)
+        public Goal(string name, decimal targetAmount, DateTime targetDate, Guid userId, GoalType type = GoalType.Custom)
         {
             Name = name;
             TargetAmount = targetAmount;
+            TargetDate = targetDate;
             UserId = userId;
+            Type = type;
             CreatedAt = DateTime.UtcNow;
         }
 
@@ -73,6 +101,33 @@ namespace GoalGrow.Entity.Models
         public bool IsCompleted => CurrentAmount >= TargetAmount;
 
         [NotMapped]
-        public int? DaysRemaining => TargetDate.HasValue ? (TargetDate.Value - DateTime.UtcNow).Days : null;
+        public int DaysRemaining => (TargetDate - DateTime.UtcNow).Days;
+
+        [NotMapped]
+        public bool HasReachedUnlockThreshold => UnlockThreshold.HasValue && CurrentAmount >= UnlockThreshold.Value;
+
+        // NEW: Helper method per obiettivi di sistema
+        public static Goal CreateEmergencyGoal(Guid userId, decimal targetAmount)
+        {
+            return new Goal("Fondo di Emergenza", targetAmount, DateTime.UtcNow.AddYears(1), userId, GoalType.Emergency)
+            {
+                IsSystemGoal = true,
+                Description = "Fondo di sicurezza per emergenze impreviste. Consigliato: 3-6 mesi di spese.",
+                Priority = GoalPriority.High,
+                IsWithdrawalLocked = false // Può essere svincolato in emergenza
+            };
+        }
+
+        public static Goal CreateInvestmentGoal(Guid userId, decimal unlockThreshold = 5000m)
+        {
+            return new Goal("Fondo Investimenti", unlockThreshold * 2, DateTime.UtcNow.AddYears(2), userId, GoalType.Investment)
+            {
+                IsSystemGoal = true,
+                UnlockThreshold = unlockThreshold,
+                Description = $"Raggiungi {unlockThreshold:C} per sbloccare il marketplace dei consulenti finanziari.",
+                Priority = GoalPriority.High,
+                IsWithdrawalLocked = true // Bloccato fino al raggiungimento soglia
+            };
+        }
     }
 }

@@ -25,6 +25,9 @@ namespace GoalGrow.Entity.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalInvested { get; set; } = 0m;
 
+        // Compliance
+        public virtual KycVerification? KycVerification { get; set; }
+
         // Relazioni finanziarie
         public virtual UserConsultantRelationship? ConsultantRelationship { get; set; }
         public virtual ICollection<Portfolio> Portfolios { get; set; } = new List<Portfolio>();

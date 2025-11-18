@@ -1,0 +1,193 @@
+@startuml GoalGrow - Gamification Module
+
+skinparam class {
+    BackgroundColor #F3E5F5
+    BorderColor #7B1FA2
+    FontSize 11
+}
+
+package "Gamification Module" {
+    
+    class UserLevel <<Entity>> {
+        + Id: Guid
+        + UserId: Guid
+        + CurrentLevel: int
+        + TotalPoints: int
+        + CurrentLevelPoints: int
+        + PointsToNextLevel: int
+        + LastLevelUpAt: DateTime?
+        --Computed--
+        + LevelName: string
+        + ProgressPercentage: int
+        --Methods--
+        + AddXP(points: int): void
+        --Navigation--
+        + User: User
+    }
+
+    class Badge <<Entity>> {
+        + Id: Guid
+        + Code: string
+        + Name: string
+        + Description: string
+        + Category: BadgeCategory
+        + Rarity: BadgeRarity
+        + PointsReward: int
+        + IconUrl: string
+        + Requirements: string
+        --Navigation--
+        + UserBadges: ICollection<UserBadge>
+    }
+
+    class UserBadge <<Entity>> {
+        + Id: Guid
+        + UserId: Guid
+        + BadgeId: Guid
+        + EarnedAt: DateTime
+        + ProgressPercentage: int
+        + Notes: string
+        --Navigation--
+        + User: User
+        + Badge: Badge
+    }
+
+    class Challenge <<Entity>> {
+        + Id: Guid
+        + Title: string
+        + Description: string
+        + Type: ChallengeType
+        + Difficulty: ChallengeDifficulty
+        + PointsReward: int
+        + MoneyReward: decimal?
+        + BadgeRewardId: Guid?
+        + StartDate: DateTime
+        + EndDate: DateTime
+        + TargetAmount: decimal?
+        + TargetCount: int?
+        + IsRecurring: bool
+        --Navigation--
+        + BadgeReward: Badge?
+        + UserChallenges: ICollection<UserChallenge>
+    }
+
+    class UserChallenge <<Entity>> {
+        + Id: Guid
+        + UserId: Guid
+        + ChallengeId: Guid
+        + AcceptedAt: DateTime
+        + CompletedAt: DateTime?
+        + Status: ChallengeStatus
+        + ProgressPercentage: int
+        + CurrentProgress: decimal
+        --Computed--
+        + IsCompleted: bool
+        --Navigation--
+        + User: User
+        + Challenge: Challenge
+    }
+
+    class Notification <<Entity>> {
+        + Id: Guid
+        + UserId: Guid
+        + Title: string
+        + Message: string
+        + Type: NotificationType
+        + Priority: NotificationPriority
+        + IsRead: bool
+        + ReadAt: DateTime?
+        + ActionUrl: string
+        + RelatedEntityId: Guid?
+        --Computed--
+        + IsExpired: bool
+        --Navigation--
+        + User: User
+    }
+
+    enum BadgeRarity {
+        Common
+        Uncommon
+        Rare
+        Epic
+        Legendary
+    }
+
+    enum ChallengeType {
+        Saving
+        Investment
+        Budget
+        Transaction
+        Educational
+    }
+
+    enum ChallengeDifficulty {
+        Easy
+        Medium
+        Hard
+        Expert
+    }
+}
+
+' Relationships
+User "1" -down-> "0..1" UserLevel : has level >
+Badge "1" -down-> "0..*" UserBadge : earned by users >
+User "1" <-- "0..*" UserBadge
+
+Challenge "1" -down-> "0..*" UserChallenge : accepted by users >
+User "1" <-- "0..*" UserChallenge
+
+Challenge "0..*" .right.> "0..1" Badge : rewards with >
+
+User "1" <-- "0..*" Notification : receives >
+
+' Enums
+Badge .up.> BadgeRarity
+Challenge .up.> ChallengeType
+Challenge .up.> ChallengeDifficulty
+
+note right of UserLevel
+  **XP System**
+  
+  Exponential progression:
+  Level 1: 100 XP
+  Level 2: 200 XP
+  Level 3: 400 XP
+  ...
+  
+  AddXP() handles level-ups
+end note
+
+note bottom of Badge
+  **Achievement System**
+  
+  Categories:
+  - Achievement
+  - Milestone
+  - Special Event
+  
+  Rarity affects XP reward
+end note
+
+note bottom of Challenge
+  **Challenge Types**
+  
+  - Saving: Save X amount
+  - Investment: Invest X times
+  - Budget: Stay under budget
+  - Transaction: Track X expenses
+  - Educational: Complete courses
+  
+  Can reward Badge + XP + Money
+end note
+
+note right of Notification
+  **User Alerts**
+  
+  Triggered by:
+  - Budget warnings
+  - Goal milestones
+  - Investment updates
+  - Challenge completion
+  - Badge earned
+end note
+
+@enduml

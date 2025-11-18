@@ -54,11 +54,21 @@ namespace GoalGrow.Entity.Models
 
         public DateTime? UpdatedAt { get; set; }
 
+        // Target properties for challenge completion
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? TargetAmount { get; set; } // Target amount for money-based challenges
+
+        public int? TargetCount { get; set; } // Target count for count-based challenges
+
         // Navigation properties
         [ForeignKey(nameof(BadgeRewardId))]
         public virtual Badge? BadgeReward { get; set; }
 
         public virtual ICollection<UserChallenge> UserChallenges { get; set; } = new List<UserChallenge>();
+
+        // Alias for backward compatibility
+        [NotMapped]
+        public int RewardXP => PointsReward;
 
         public Challenge(string title, string description, ChallengeType type, DateTime endDate)
         {

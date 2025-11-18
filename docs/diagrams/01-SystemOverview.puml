@@ -1,0 +1,90 @@
+@startuml GoalGrow - System Overview
+
+!define PRIMARY_COLOR #1976D2
+!define SECONDARY_COLOR #F57C00
+!define SUCCESS_COLOR #388E3C
+!define INFO_COLOR #7B1FA2
+
+skinparam package {
+    BackgroundColor #E3F2FD
+    BorderColor PRIMARY_COLOR
+    FontSize 14
+    FontStyle bold
+}
+
+skinparam component {
+    BackgroundColor #FFFFFF
+    BorderColor PRIMARY_COLOR
+}
+
+package "User Management" as UM <<Rectangle>> {
+    component [User Hierarchy] as UH
+    component [Consultant Relations] as CR
+}
+
+package "Financial Core" as FC <<Rectangle>> {
+    component [Accounts & Transactions] as AT
+    component [Budgets & Goals] as BG
+    component [Payees] as PY
+}
+
+package "Investment System" as IS <<Rectangle>> {
+    component [Portfolios] as PF
+    component [Products & Investments] as PI
+    component [Risk Profiles] as RP
+    component [Fund Movements] as FM
+    component [Commissions] as CM
+}
+
+package "Gamification" as GM <<Rectangle>> {
+    component [Levels & XP] as LX
+    component [Badges] as BD
+    component [Challenges] as CH
+}
+
+package "Notifications" as NT <<Rectangle>> {
+    component [User Notifications] as UN
+}
+
+' Relationships
+UM -down-> FC : owns accounts
+UM -down-> IS : manages investments
+UM -down-> GM : earns rewards
+UM -down-> NT : receives alerts
+
+FC -right-> GM : triggers achievements
+IS -right-> GM : triggers milestones
+FC --> NT : generates alerts
+IS --> NT : sends updates
+
+note right of UM
+  **Base Module**
+  - User authentication
+  - Profile management
+  - Consultant relationships
+end note
+
+note bottom of FC
+  **Core Financial**
+  - Personal banking
+  - Transaction tracking
+  - Budget management
+  - Goal setting
+end note
+
+note bottom of IS
+  **Investment Platform**
+  - Portfolio management
+  - Product catalog
+  - Risk assessment
+  - Fund operations
+end note
+
+note bottom of GM
+  **Engagement Layer**
+  - User progression
+  - Achievement system
+  - Challenge mechanics
+end note
+
+@enduml

@@ -5,26 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GoalGrow.Data
 {
+    /// <summary>
+    /// Main DbContext for GoalGrow application
+    /// Includes all modules: User, Financial, Investment, Gamification, Compliance
+    /// </summary>
     public class GoalGrowDbContext : DbContext
     {
         public GoalGrowDbContext(DbContextOptions<GoalGrowDbContext> options) : base(options)
         {
         }
 
-        // Users
+        #region User Management
         public DbSet<User> Users { get; set; }
         public DbSet<InversotorUser> InvestorUsers { get; set; }
         public DbSet<ConsultantUser> ConsultantUsers { get; set; }
+        #endregion
 
-        // Financial Core
+        #region Financial Core
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<RecurringTransaction> RecurringTransactions { get; set; }
         public DbSet<Payee> Payees { get; set; }
         public DbSet<Budget> Budgets { get; set; }
         public DbSet<Goal> Goals { get; set; }
+        public DbSet<PlatformFee> PlatformFees { get; set; }
+        #endregion
 
-        // Investment System
+        #region Investment System
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<InvestmentProduct> InvestmentProducts { get; set; }
         public DbSet<Investment> Investments { get; set; }
@@ -34,22 +41,30 @@ namespace GoalGrow.Data
         public DbSet<CommissionTransaction> CommissionTransactions { get; set; }
         public DbSet<RiskProfile> RiskProfiles { get; set; }
         public DbSet<PortfolioSnapshot> PortfolioSnapshots { get; set; }
+        #endregion
 
-        // Gamification
+        #region Gamification
         public DbSet<Badge> Badges { get; set; }
         public DbSet<UserBadge> UserBadges { get; set; }
         public DbSet<Challenge> Challenges { get; set; }
         public DbSet<UserChallenge> UserChallenges { get; set; }
         public DbSet<UserLevel> UserLevels { get; set; }
+        #endregion
 
-        // Notifications
+        #region Notifications
         public DbSet<Notification> Notifications { get; set; }
+        #endregion
+
+        #region Compliance
+        public DbSet<KycVerification> KycVerifications { get; set; }
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             // Apply all configurations from assembly
+            // This will automatically discover configurations in subdirectories
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(GoalGrowDbContext).Assembly);
 
             // User Inheritance (TPH - Table Per Hierarchy)

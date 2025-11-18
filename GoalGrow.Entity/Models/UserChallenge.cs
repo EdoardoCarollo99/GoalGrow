@@ -33,12 +33,20 @@ namespace GoalGrow.Entity.Models
         [MaxLength(500)]
         public string Notes { get; set; } = string.Empty;
 
+        // Current progress tracking
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal CurrentProgress { get; set; } = 0;
+
         // Navigation properties
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; } = default!;
 
         [ForeignKey(nameof(ChallengeId))]
         public virtual Challenge Challenge { get; set; } = default!;
+
+        // Alias for backward compatibility
+        [NotMapped]
+        public DateTime StartedAt => AcceptedAt;
 
         public UserChallenge(Guid userId, Guid challengeId)
         {

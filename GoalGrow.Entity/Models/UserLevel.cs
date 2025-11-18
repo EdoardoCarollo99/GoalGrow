@@ -47,14 +47,60 @@ namespace GoalGrow.Entity.Models
             CreatedAt = DateTime.UtcNow;
         }
 
-        public UserLevel(Guid userId) : this()
+        public UserLevel(Guid userId, int currentLevel, string levelName) : this()
         {
             UserId = userId;
+            CurrentLevel = currentLevel;
         }
 
         [NotMapped]
         public int ProgressPercentage => PointsToNextLevel > 0 
             ? (int)((decimal)CurrentLevelPoints / PointsToNextLevel * 100) 
             : 0;
+
+        // Aliases for backward compatibility and clarity
+        [NotMapped]
+        public int TotalXP => TotalPoints;
+
+        [NotMapped]
+        public int CurrentLevelXP => CurrentLevelPoints;
+
+        [NotMapped]
+        public int NextLevelXP => PointsToNextLevel;
+
+        [NotMapped]
+        public string LevelName => CurrentLevel switch
+        {
+            1 => "Beginner",
+            2 => "Novice",
+            3 => "Intermediate",
+            4 => "Advanced",
+            5 => "Expert",
+            6 => "Master",
+            _ => $"Level {CurrentLevel}"
+        };
+
+        public void AddXP(int points)
+        {
+            TotalPoints += points;
+            CurrentLevelPoints += points;
+
+            // Check for level up
+            while (CurrentLevelPoints >= PointsToNextLevel)
+            {
+                CurrentLevelPoints -= PointsToNextLevel;
+                CurrentLevel++;
+                LastLevelUpAt = DateTime.UtcNow;
+                PointsToNextLevel = CalculatePointsForNextLevel();
+            }
+
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        private int CalculatePointsForNextLevel()
+        {
+            // Exponential growth: 100, 200, 400, 800, etc.
+            return (int)(100 * Math.Pow(2, CurrentLevel - 1));
+        }
     }
 }

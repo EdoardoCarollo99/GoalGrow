@@ -1,0 +1,140 @@
+@startuml GoalGrow - Financial Core Module
+
+skinparam class {
+    BackgroundColor #FFF9C4
+    BorderColor #F57C00
+    FontSize 11
+}
+
+package "Financial Core Module" {
+    
+    class Account <<Aggregate Root>> {
+        + Id: Guid
+        + AccountNumber: string
+        + AccountName: string
+        + Type: AccountType
+        + Balance: decimal
+        + AvailableBalance: decimal
+        + Currency: string
+        + Status: AccountStatus
+        + IBAN: string
+        --Navigation--
+        + User: User
+        + Transactions: ICollection<Transaction>
+    }
+
+    class Transaction <<Entity>> {
+        + Id: Guid
+        + TransactionNumber: string
+        + Type: TransactionType
+        + TransactionDate: DateTime
+        + Amount: decimal
+        + Currency: string
+        + BalanceAfter: decimal
+        + Status: TransactionStatus
+        + Category: string
+        --Navigation--
+        + Account: Account
+        + User: User
+        + Payee: Payee?
+        + Goal: Goal?
+        + RecurringTransaction: RecurringTransaction?
+    }
+
+    class RecurringTransaction <<Entity>> {
+        + Id: Guid
+        + Name: string
+        + Type: TransactionType
+        + Amount: decimal
+        + Frequency: RecurrenceFrequency
+        + Interval: int
+        + StartDate: DateTime
+        + NextExecutionDate: DateTime?
+        + Status: RecurringTransactionStatus
+        --Navigation--
+        + Account: Account
+        + Transactions: ICollection<Transaction>
+    }
+
+    class Payee <<Entity>> {
+        + Id: Guid
+        + Name: string
+        + Category: string
+        + AccountNumber: string
+        + TaxCode: string
+        --Navigation--
+        + User: User
+        + Transactions: ICollection<Transaction>
+    }
+
+    class Budget <<Entity>> {
+        + Id: Guid
+        + Name: string
+        + Category: string
+        + Amount: decimal
+        + SpentAmount: decimal
+        + Period: BudgetPeriod
+        + AlertThreshold: int
+        --Computed--
+        + RemainingAmount: decimal
+        + PercentageUsed: decimal
+        + IsOverBudget: bool
+    }
+
+    class Goal <<Entity>> {
+        + Id: Guid
+        + Name: string
+        + TargetAmount: decimal
+        + CurrentAmount: decimal
+        + TargetDate: DateTime
+        + Priority: GoalPriority
+        + Status: GoalStatus
+        + IsAutoSave: bool
+        --Computed--
+        + ProgressPercentage: decimal
+        + DaysRemaining: int
+        + IsCompleted: bool
+        --Navigation--
+        + User: User
+        + Transactions: ICollection<Transaction>
+    }
+}
+
+' Main relationships
+Account "1" -down-> "0..*" Transaction : contains >
+RecurringTransaction "1" .down.> "0..*" Transaction : generates >
+Payee "0..1" <-left- "0..*" Transaction : payee
+Goal "0..1" <-right- "0..*" Transaction : contributes to
+
+' User relationships (simplified)
+Account -up-> "1" User : owned by
+Transaction -up-> "1" User
+Budget -up-> "1" User
+Goal -up-> "1" User
+Payee -up-> "1" User
+
+note right of Account
+  **Aggregate Root**
+  
+  Manages balance
+  Tracks transactions
+  Controls currency
+end note
+
+note right of Goal
+  **Auto-Save Feature**
+  
+  Can link to RecurringTransaction
+  for automatic contributions
+end note
+
+note bottom of Transaction
+  **Categorization**
+  
+  Can be linked to:
+  - Budget (spending tracking)
+  - Goal (savings tracking)
+  - Payee (vendor tracking)
+end note
+
+@enduml

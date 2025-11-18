@@ -1,0 +1,182 @@
+@startuml GoalGrow - Investment System Module
+
+skinparam class {
+    BackgroundColor #E8F5E9
+    BorderColor #388E3C
+    FontSize 11
+}
+
+package "Investment System Module" {
+    
+    class Portfolio <<Aggregate Root>> {
+        + Id: Guid
+        + Name: string
+        + TotalInvested: decimal
+        + CurrentValue: decimal
+        + Currency: string
+        --Computed--
+        + TotalReturn: decimal
+        + ReturnPercentage: decimal
+        --Navigation--
+        + User: User
+        + Consultant: ConsultantUser?
+        + Investments: ICollection<Investment>
+    }
+
+    class Investment <<Entity>> {
+        + Id: Guid
+        + InvestmentNumber: string
+        + Quantity: decimal
+        + PurchasePrice: decimal
+        + TotalAmount: decimal
+        + Fee: decimal?
+        + Status: InvestmentStatus
+        + SoldDate: DateTime?
+        + SellPrice: decimal?
+        --Computed--
+        + ProfitLoss: decimal
+        + ProfitLossPercentage: decimal
+        --Navigation--
+        + Portfolio: Portfolio
+        + Product: InvestmentProduct
+        + Consultant: ConsultantUser?
+    }
+
+    class InvestmentProduct <<Entity>> {
+        + Id: Guid
+        + Code: string
+        + Name: string
+        + Type: InvestmentProductType
+        + CurrentPrice: decimal
+        + RiskLevel: RiskLevel
+        + MinimumInvestment: decimal
+        + ISIN: string
+        + YearlyReturn: decimal?
+        --Navigation--
+        + Investments: ICollection<Investment>
+    }
+
+    class RiskProfile <<Entity>> {
+        + Id: Guid
+        + RiskTolerance: RiskTolerance
+        + InvestmentExperience: InvestmentExperience
+        + InvestmentObjective: InvestmentObjective
+        + AnnualIncome: decimal
+        + RiskScore: int (0-100)
+        + NextReviewDate: DateTime?
+        --Computed--
+        + RiskCategory: string
+        + IsExpired: bool
+        --Navigation--
+        + User: InversotorUser
+    }
+
+    class CompanyAccount <<Entity>> {
+        + Id: Guid
+        + AccountName: string
+        + AccountNumber: string
+        + Balance: decimal
+        + TotalDeposits: decimal
+        + TotalInvested: decimal
+        --Computed--
+        + NetBalance: decimal
+        + UnallocatedFunds: decimal
+        --Navigation--
+        + FundMovements: ICollection<FundMovement>
+    }
+
+    class FundMovement <<Entity>> {
+        + Id: Guid
+        + MovementNumber: string
+        + Type: FundMovementType
+        + Amount: decimal
+        + Status: FundMovementStatus
+        + RequestDate: DateTime
+        + CompletedDate: DateTime?
+        --Navigation--
+        + User: User
+        + UserAccount: Account
+        + CompanyAccount: CompanyAccount
+    }
+
+    class CommissionTransaction <<Entity>> {
+        + Id: Guid
+        + CommissionNumber: string
+        + BaseAmount: decimal
+        + CommissionRate: decimal
+        + Amount: decimal
+        + Type: CommissionType
+        + Status: CommissionStatus
+        + PaymentDate: DateTime?
+        --Navigation--
+        + Consultant: ConsultantUser
+        + InvestorUser: InversotorUser
+        + Investment: Investment?
+    }
+
+    class PortfolioSnapshot <<Entity>> {
+        + Id: Guid
+        + SnapshotDate: DateTime
+        + Period: SnapshotPeriod
+        + TotalValue: decimal
+        + TotalInvested: decimal
+        + TotalReturn: decimal
+        + ReturnPercentage: decimal
+        --Navigation--
+        + Portfolio: Portfolio
+    }
+}
+
+' Main aggregation
+Portfolio "1" -down-> "0..*" Investment : contains >
+InvestmentProduct "1" <-left- "0..*" Investment : based on
+
+' Snapshots
+Portfolio "1" -right-> "0..*" PortfolioSnapshot : tracks history >
+
+' Fund movements
+CompanyAccount "1" -down-> "0..*" FundMovement : processes >
+FundMovement -up-> "1" Account : from user account
+
+' Commissions
+Investment "0..1" <-down- "0..*" CommissionTransaction : generates
+ConsultantUser "1" <-- "0..*" CommissionTransaction : earns
+
+' Risk profile
+InversotorUser "1" -down-> "0..1" RiskProfile : has profile >
+
+note right of Portfolio
+  **Aggregate Root**
+  
+  Groups investments
+  Tracks performance
+  Can be managed by consultant
+end note
+
+note bottom of FundMovement
+  **Fund Flow**
+  
+  User Account ? Company Account: Deposit
+  Company Account ? User Account: Withdrawal
+  
+  Status: Pending ? Completed
+end note
+
+note bottom of RiskProfile
+  **MIFID II Compliance**
+  
+  Required for investment advice
+  Must be reviewed annually
+  Determines suitable products
+end note
+
+note right of CommissionTransaction
+  **Consultant Earnings**
+  
+  Generated when:
+  - New investment made
+  - Performance milestones
+  - Advisory fees
+end note
+
+@enduml

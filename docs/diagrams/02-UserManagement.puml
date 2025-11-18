@@ -1,0 +1,106 @@
+@startuml GoalGrow - User Management Module
+
+skinparam class {
+    BackgroundColor #E3F2FD
+    BorderColor #1976D2
+    FontSize 12
+}
+
+skinparam stereotypeCBackgroundColor #FFF9C4
+
+package "User Management Module" {
+    
+    abstract class User <<Entity>> {
+        + Id: Guid
+        + FirstName: string
+        + LastName: string
+        + PhoneNumber: string
+        + EmailAddress: string
+        + UserType: UserType
+        --
+        + User(firstName, lastName, ...)
+    }
+
+    class InversotorUser <<Entity>> {
+        + FiscalCode: string
+        + BirthDate: DateTime
+        + VirtualWalletBalance: decimal
+        + TotalDeposited: decimal
+        + TotalWithdrawn: decimal
+        + TotalInvested: decimal
+        --Navigation--
+        + ConsultantRelationship: UserConsultantRelationship?
+        + Portfolios: ICollection<Portfolio>
+        + UserLevel: UserLevel?
+        + UserBadges: ICollection<UserBadge>
+        + Notifications: ICollection<Notification>
+    }
+
+    class ConsultantUser <<Entity>> {
+        + LicenseNumber: string
+        + Specialization: string
+        + CommissionRate: decimal
+        + YearsOfExperience: int
+        + AverageRating: decimal
+        + TotalReviews: int
+        --Navigation--
+        + Clients: ICollection<UserConsultantRelationship>
+        + Commissions: ICollection<CommissionTransaction>
+    }
+
+    class UserConsultantRelationship <<Entity>> {
+        + Id: Guid
+        + InvestorUserId: Guid
+        + ConsultantUserId: Guid
+        + AssignedDate: DateTime
+        + TerminatedDate: DateTime?
+        + Status: RelationshipStatus
+        + Rating: int?
+        + Review: string
+        + ReviewDate: DateTime?
+        --Navigation--
+        + InvestorUser: InversotorUser
+        + ConsultantUser: ConsultantUser
+    }
+
+    enum UserType {
+        AdminUser
+        InvestorUser
+        ConsultantUser
+    }
+
+    enum RelationshipStatus {
+        Pending
+        Active
+        Suspended
+        Terminated
+    }
+}
+
+' Inheritance
+User <|-- InversotorUser
+User <|-- ConsultantUser
+
+' Relationships
+InversotorUser "1" -- "0..1" UserConsultantRelationship : has consultant >
+ConsultantUser "1" -- "0..*" UserConsultantRelationship : advises clients >
+
+User .down.> UserType : uses
+
+note right of User
+  **Table Per Hierarchy (TPH)**
+  
+  All users stored in same table
+  with discriminator column
+end note
+
+note bottom of UserConsultantRelationship
+  **1-to-1 Relationship**
+  
+  Each investor can have ONE consultant
+  Each consultant can have MANY clients
+  
+  Includes rating system
+end note
+
+@enduml
