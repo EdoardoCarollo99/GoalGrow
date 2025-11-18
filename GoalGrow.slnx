@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/API/">
+    <Project Path="GoalGrow.API/GoalGrow.API.csproj" Id="9170c0d3-df43-4e2b-8032-0d272ccb10af" />
+  </Folder>
   <Folder Name="/DataBase/">
     <Project Path="GoalGrow.Data/GoalGrow.Data.csproj" />
     <Project Path="GoalGrow.Entity/GoalGrow.Entity.csproj" Id="96075909-5d0a-4925-b514-2d5e06d3d76f" />
