@@ -1,24 +1,24 @@
-# ? GoalGrow - Task List
+#  GoalGrow - Task List
 
 Current development status and remaining work for MVP.
 
 ---
 
-## ?? Overall Progress
+##  Overall Progress
 
-**Phase:** Foundation & Database ?  
-**Next Phase:** API Development ??  
+**Phase:** Foundation & Database   
+**Next Phase:** API Development   
 **MVP Target:** Q4 2025 (11 months)
 
 **Completion:** ~15% of MVP
 
 ---
 
-## ? Completed Tasks
+##  Completed Tasks
 
 ### Phase 1: Foundation (100% Complete)
 
-#### Database Schema ?
+#### Database Schema 
 - [x] User entity (abstract base class)
 - [x] InversotorUser entity
 - [x] ConsultantUser entity  
@@ -43,17 +43,17 @@ Current development status and remaining work for MVP.
 - [x] UserChallenge entity
 - [x] UserLevel entity
 - [x] Notification entity
-- [x] KycVerification entity ? NEW
-- [x] PlatformFee entity ? NEW
+- [x] KycVerification entity  NEW
+- [x] PlatformFee entity  NEW
 
-#### EF Core Configuration ?
+#### EF Core Configuration 
 - [x] All entity configurations created
 - [x] Relationships configured
 - [x] Indexes optimized
 - [x] Table-Per-Hierarchy (TPH) for User
 - [x] Cascade delete behaviors
 
-#### Value Objects & Base Classes ?
+#### Value Objects & Base Classes 
 - [x] AuditableEntity base class
 - [x] FullAuditableEntity base class
 - [x] Money value object
@@ -61,7 +61,7 @@ Current development status and remaining work for MVP.
 - [x] Rating value object
 - [x] ContactInfo value object
 
-#### Infrastructure ?
+#### Infrastructure 
 - [x] GoalGrowDbContext
 - [x] FinancialDbContext (module-specific)
 - [x] InvestmentDbContext (module-specific)
@@ -70,7 +70,7 @@ Current development status and remaining work for MVP.
 - [x] Database seeder with sample data
 - [x] User Secrets configuration
 
-#### Documentation ?
+#### Documentation 
 - [x] README.md (professional)
 - [x] CHANGELOG.md (version history)
 - [x] docs/INDEX.md (documentation hub)
@@ -79,14 +79,14 @@ Current development status and remaining work for MVP.
 - [x] docs/technical/AUTHENTICATION.md
 - [x] PlantUML diagrams (all modules)
 
-#### Automation ?
+#### Automation 
 - [x] Setup-Development.ps1 script
 - [x] docker-compose.yml for Keycloak
 - [x] Migrate-Configurations.ps1 script
 
 ---
 
-## ?? In Progress
+##  In Progress
 
 ### Phase 2: API Development (0% Complete)
 
@@ -99,7 +99,7 @@ Current development status and remaining work for MVP.
 
 ---
 
-## ?? TODO - Short Term (Next 2-4 Weeks)
+##  TODO - Short Term (Next 2-4 Weeks)
 
 ### API Foundation
 - [ ] Create API project structure
@@ -134,7 +134,7 @@ Current development status and remaining work for MVP.
   - [ ] VerifyKycAsync (admin only)
   - [ ] RejectKycAsync (admin only)
 - [ ] Create IPlatformFeeService & PlatformFeeService
-  - [ ] CalculateFeeAsync (1%, min €1)
+  - [ ] CalculateFeeAsync (1%, min â‚¬1)
   - [ ] ApplyFeeAsync
   - [ ] GetUserFeesAsync
 
@@ -162,7 +162,7 @@ Current development status and remaining work for MVP.
 
 ---
 
-## ?? TODO - Medium Term (1-3 Months)
+##  TODO - Medium Term (1-3 Months)
 
 ### Blazor Web App
 - [ ] Create GoalGrow.Web project (Blazor Server)
@@ -209,7 +209,7 @@ Current development status and remaining work for MVP.
 
 ---
 
-## ?? TODO - Long Term (3-6 Months)
+##  TODO - Long Term (3-6 Months)
 
 ### Investment System
 - [ ] Consultant marketplace search & filtering
@@ -239,7 +239,7 @@ Current development status and remaining work for MVP.
 
 ---
 
-## ?? TODO - Pre-Launch (6-11 Months)
+##  TODO - Pre-Launch (6-11 Months)
 
 ### Testing
 - [ ] Unit tests for all services (90%+ coverage)
@@ -289,10 +289,10 @@ Current development status and remaining work for MVP.
 
 ---
 
-## ?? MVP Milestone Checklist
+##  MVP Milestone Checklist
 
 ### Must-Have Features (MVP)
-- [x] Database schema ?
+- [x] Database schema 
 - [ ] User authentication (Keycloak)
 - [ ] KYC verification workflow
 - [ ] Goal creation and tracking
@@ -315,7 +315,7 @@ Current development status and remaining work for MVP.
 
 ---
 
-## ?? Current Sprint Focus
+##  Current Sprint Focus
 
 **Sprint Goal:** Create API Foundation
 
@@ -329,7 +329,7 @@ Current development status and remaining work for MVP.
 
 ---
 
-## ?? Metrics & KPIs
+##  Metrics & KPIs
 
 ### Development Metrics
 - **Lines of Code:** ~15,000 (Entity + Data layers)
@@ -341,31 +341,31 @@ Current development status and remaining work for MVP.
 - **Target Users:** 100 beta users
 - **KYC Completion Rate:** >80%
 - **System Goal Activation:** >90%
-- **Platform Fee Revenue:** €1,000/month (beta)
+- **Platform Fee Revenue:** â‚¬1,000/month (beta)
 
 ---
 
-## ?? Recent Updates
+##  Recent Updates
 
 **Last Updated:** 2025-01-18
 
 **Recent Changes:**
-- ? Created comprehensive documentation structure
-- ? Reorganized `/docs` folder
-- ? Added Value Objects and Base Classes
-- ? Enhanced Goal entity with system goals
-- ? Added KycVerification and PlatformFee entities
-- ? Created automated setup script
-- ? Added docker-compose.yml for Keycloak
+-  Created comprehensive documentation structure
+-  Reorganized `/docs` folder
+-  Added Value Objects and Base Classes
+-  Enhanced Goal entity with system goals
+-  Added KycVerification and PlatformFee entities
+-  Created automated setup script
+-  Added docker-compose.yml for Keycloak
 
 **Next Planned:**
-- ?? Create API project
-- ?? Implement authentication middleware
-- ?? Build core API endpoints
+-  Create API project
+-  Implement authentication middleware
+-  Build core API endpoints
 
 ---
 
-## ?? Ideas for Future Consideration
+##  Ideas for Future Consideration
 
 - **AI Financial Coach:** Personalized savings tips
 - **Social Investing:** See what consultants others use
@@ -377,8 +377,8 @@ Current development status and remaining work for MVP.
 
 ---
 
-**Need to add a task?** Update this file and commit!
+**Need to add a task** Update this file and commit!
 
 ---
 
-**?? Pro Tip:** Use GitHub Issues/Projects to track tasks in a more visual way.
+** Pro Tip:** Use GitHub Issues/Projects to track tasks in a more visual way.
