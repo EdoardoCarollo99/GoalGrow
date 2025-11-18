@@ -1,4 +1,4 @@
-# ?? Changelog
+#  Changelog
 
 All notable changes to GoalGrow will be documented in this file.
 
@@ -258,4 +258,4 @@ dotnet ef database update PreviousMigrationName --project ../GoalGrow.Data --sta
 
 ---
 
-**?? For detailed technical changes, see commit history on GitHub.**
+** For detailed technical changes, see commit history on GitHub.**
