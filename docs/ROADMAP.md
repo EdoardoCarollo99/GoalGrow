@@ -1,8 +1,8 @@
-# ??? GoalGrow - Technical Roadmap
+#  GoalGrow - Technical Roadmap
 
-## Current Status ?
+## Current Status 
 
-### ? Completed (Today)
+###  Completed (Today)
 - [x] Domain models refactored (Value Objects, Base Classes)
 - [x] Modular architecture documentation
 - [x] PlantUML diagrams for all modules
@@ -14,7 +14,7 @@
 
 ---
 
-## ?? Next Steps (Immediate Priority)
+##  Next Steps (Immediate Priority)
 
 ### Step 1: Apply Refactoring Migration (1 day)
 
@@ -48,13 +48,13 @@ public string KeycloakSubjectId { get; set; } = string.Empty;
 **InversotorUser.cs:**
 ```csharp
 // Add KYC relationship
-public virtual KycVerification? KycVerification { get; set; }
+public virtual KycVerification KycVerification { get; set; }
 ```
 
 #### 2.2 Create Missing Enum Files
-- [ ] `GoalType.cs` ? (Already created)
-- [ ] `KycStatus.cs` ? (Already created)
-- [ ] `PlatformFeeType.cs` ? (Already created)
+- [ ] `GoalType.cs`  (Already created)
+- [ ] `KycStatus.cs`  (Already created)
+- [ ] `PlatformFeeType.cs`  (Already created)
 
 #### 2.3 Update DbContext
 ```csharp
@@ -70,10 +70,10 @@ public DbSet<PlatformFee> PlatformFees { get; set; }
 **Files to create:**
 ```
 GoalGrow.Data/Configurations/
-??? Compliance/
-?   ??? KycVerificationConfiguration.cs
-??? Financial/
-    ??? PlatformFeeConfiguration.cs
+ Compliance/
+    KycVerificationConfiguration.cs
+ Financial/
+     PlatformFeeConfiguration.cs
 ```
 
 **Example: KycVerificationConfiguration.cs**
@@ -177,25 +177,25 @@ dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 **Folder Structure:**
 ```
 GoalGrow.Api/
-??? Controllers/
-?   ??? AuthController.cs
-?   ??? UserController.cs
-?   ??? GoalController.cs
-?   ??? InvestmentController.cs
-?   ??? ConsultantController.cs
-?   ??? KycController.cs
-??? DTOs/
-?   ??? Requests/
-?   ??? Responses/
-??? Services/
-?   ??? Interfaces/
-?   ??? Implementations/
-??? Middleware/
-?   ??? ExceptionHandlingMiddleware.cs
-?   ??? AuthenticationMiddleware.cs
-??? Mappings/
-?   ??? AutoMapperProfile.cs
-??? Program.cs
+ Controllers/
+    AuthController.cs
+    UserController.cs
+    GoalController.cs
+    InvestmentController.cs
+    ConsultantController.cs
+    KycController.cs
+ DTOs/
+    Requests/
+    Responses/
+ Services/
+    Interfaces/
+    Implementations/
+ Middleware/
+    ExceptionHandlingMiddleware.cs
+    AuthenticationMiddleware.cs
+ Mappings/
+    AutoMapperProfile.cs
+ Program.cs
 ```
 
 ---
@@ -267,25 +267,25 @@ dotnet add package Radzen.Blazor  # UI component library
 **Pages to Create:**
 ```
 Pages/
-??? Auth/
-?   ??? Login.razor
-?   ??? Register.razor
-?   ??? Logout.razor
-??? Dashboard/
-?   ??? Index.razor
-?   ??? Goals.razor
-?   ??? Transactions.razor
-?   ??? Portfolio.razor
-??? Kyc/
-?   ??? Upload.razor
-?   ??? Status.razor
-??? Investment/
-?   ??? Marketplace.razor
-?   ??? ConsultantProfile.razor
-?   ??? RiskProfile.razor
-??? Settings/
-    ??? Profile.razor
-    ??? Security.razor
+ Auth/
+    Login.razor
+    Register.razor
+    Logout.razor
+ Dashboard/
+    Index.razor
+    Goals.razor
+    Transactions.razor
+    Portfolio.razor
+ Kyc/
+    Upload.razor
+    Status.razor
+ Investment/
+    Marketplace.razor
+    ConsultantProfile.razor
+    RiskProfile.razor
+ Settings/
+     Profile.razor
+     Security.razor
 ```
 
 ---
@@ -400,7 +400,7 @@ jobs:
 
 ---
 
-## ?? Timeline Summary
+##  Timeline Summary
 
 | Phase | Duration | Tasks |
 |-------|----------|-------|
@@ -415,7 +415,7 @@ jobs:
 
 ---
 
-## ?? Success Criteria
+##  Success Criteria
 
 ### Technical
 - [ ] 100% API test coverage
@@ -432,7 +432,7 @@ jobs:
 
 ---
 
-## ?? Resources
+##  Resources
 
 ### Documentation
 - [AUTHENTICATION_ARCHITECTURE.md](AUTHENTICATION_ARCHITECTURE.md)
@@ -446,7 +446,7 @@ jobs:
 
 ---
 
-## ?? Let's Start!
+##  Let's Start!
 
 **Next immediate action:**
 ```powershell
@@ -459,4 +459,4 @@ Then create a new branch for Keycloak integration:
 git checkout -b feature/keycloak-auth
 ```
 
-**Ready to proceed?** ??
+**Ready to proceed** 
