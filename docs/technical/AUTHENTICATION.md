@@ -6,7 +6,7 @@ GoalGrow utilizza un'architettura di autenticazione moderna basata su **OpenID C
 
 ---
 
-## ?? Authentication Strategy
+##  Authentication Strategy
 
 ### Technology Stack
 - **Protocol**: OpenID Connect (OIDC) + OAuth 2.0
@@ -17,31 +17,31 @@ GoalGrow utilizza un'architettura di autenticazione moderna basata su **OpenID C
 ### User Types & Roles
 
 ```
-???????????????????????????????????????
-?      Identity Provider (Keycloak)   ?
-?                                     ?
-?  Realms:                            ?
-?  ??? GoalGrow-Production           ?
-?  ?   ??? Users (InvestorUser)     ?
-?  ?   ??? Consultants              ?
-?  ?   ??? Admins                   ?
-?  ?                                 ?
-?  ??? Roles:                        ?
-?      ??? investor                  ?
-?      ??? consultant                ?
-?      ??? admin                     ?
-?      ??? kyc-verified              ?
-???????????????????????????????????????
-              ?
-???????????????????????????????????????
-?         GoalGrow API                ?
-?  (ASP.NET Core with JWT Validation) ?
-???????????????????????????????????????
+
+      Identity Provider (Keycloak)   
+                                     
+  Realms:                            
+   GoalGrow-Production           
+      Users (InvestorUser)     
+      Consultants              
+      Admins                   
+                                   
+   Roles:                        
+       investor                  
+       consultant                
+       admin                     
+       kyc-verified              
+
+              
+
+         GoalGrow API                
+  (ASP.NET Core with JWT Validation) 
+
 ```
 
 ---
 
-## ?? Required NuGet Packages
+##  Required NuGet Packages
 
 ### GoalGrow.Api (to be created)
 ```xml
@@ -52,16 +52,16 @@ GoalGrow utilizza un'architettura di autenticazione moderna basata su **OpenID C
 
 ---
 
-## ?? Identity Provider Setup
+##  Identity Provider Setup
 
 ### Option 1: Keycloak (Self-Hosted, Open Source)
 
 **Advantages:**
-- ? Free and open source
-- ? Full control over data
-- ? EU data residency compliant
-- ? Highly customizable
-- ? Supports Multi-tenancy
+-  Free and open source
+-  Full control over data
+-  EU data residency compliant
+-  Highly customizable
+-  Supports Multi-tenancy
 
 **Setup:**
 ```yaml
@@ -114,10 +114,10 @@ volumes:
 ### Option 2: Auth0 (Managed SaaS)
 
 **Advantages:**
-- ? No infrastructure management
-- ? Built-in MFA, Anomaly Detection
-- ? Social logins (Google, Apple, etc.)
-- ? Excellent documentation
+-  No infrastructure management
+-  Built-in MFA, Anomaly Detection
+-  Social logins (Google, Apple, etc.)
+-  Excellent documentation
 
 **Pricing:** Free up to 7,000 active users/month
 
@@ -126,15 +126,15 @@ volumes:
 ### Option 3: Azure AD B2C
 
 **Advantages:**
-- ? Integrated with Azure ecosystem
-- ? Compliance certifications (GDPR, SOC 2)
-- ? Global scale
+-  Integrated with Azure ecosystem
+-  Compliance certifications (GDPR, SOC 2)
+-  Global scale
 
-**Pricing:** €0.00325 per authentication (first 50K free)
+**Pricing:** â‚¬0.00325 per authentication (first 50K free)
 
 ---
 
-## ??? Recommended Choice: **Keycloak**
+##  Recommended Choice: **Keycloak**
 
 **Rationale:**
 - Full control over user data (GDPR compliance)
@@ -145,27 +145,27 @@ volumes:
 
 ---
 
-## ?? Implementation Architecture
+##  Implementation Architecture
 
 ### 1. User Registration Flow
 
 ```
-???????????      ????????????      ?????????????      ???????????????
-?  User   ???????? Keycloak ???????? GoalGrow  ????????  Database   ?
-? (Blazor)????????  (OIDC)  ????????    API    ???????? (User Table)?
-???????????      ????????????      ?????????????      ???????????????
-    ?                  ?                  ?
-    ?   1. Register    ?                  ?
-    ????????????????????                  ?
-    ?                  ?                  ?
-    ?   2. JWT Token   ?                  ?
-    ????????????????????                  ?
-    ?                  ?                  ?
-    ?   3. Create User Profile           ?
-    ???????????????????????????????????????
-    ?                  ?                  ?
-    ?                  ?   4. Save User   ?
-    ?                  ????????????????????
+                  
+  User    Keycloak  GoalGrow    Database   
+ (Blazor)  (OIDC)      API     (User Table)
+                  
+                                        
+       1. Register                      
+                      
+                                        
+       2. JWT Token                     
+                      
+                                        
+       3. Create User Profile           
+    
+                                        
+                         4. Save User   
+                      
 ```
 
 **Steps:**
@@ -250,7 +250,7 @@ public class InvestmentController : ControllerBase
     [Authorize(Policy = "KycVerified")] // Only KYC-verified users
     public async Task<IActionResult> CreateInvestment([FromBody] CreateInvestmentRequest request)
     {
-        var userId = User.FindFirst("sub")?.Value; // Keycloak user ID
+        var userId = User.FindFirst("sub").Value; // Keycloak user ID
         // Create investment...
     }
     
@@ -265,7 +265,7 @@ public class InvestmentController : ControllerBase
 
 ---
 
-## ?? User Linking Strategy
+##  User Linking Strategy
 
 ### Database Schema Update
 
@@ -297,8 +297,8 @@ public class UserSyncService
     
     public async Task<InversotorUser> GetOrCreateUserAsync(ClaimsPrincipal principal)
     {
-        var keycloakSub = principal.FindFirst("sub")?.Value 
-            ?? throw new UnauthorizedAccessException("Invalid token");
+        var keycloakSub = principal.FindFirst("sub").Value 
+             throw new UnauthorizedAccessException("Invalid token");
         
         // Check if user exists
         var user = await _db.InvestorUsers
@@ -308,10 +308,10 @@ public class UserSyncService
         {
             // Create new user from JWT claims
             user = new InversotorUser(
-                firstName: principal.FindFirst("given_name")?.Value ?? "",
-                lastName: principal.FindFirst("family_name")?.Value ?? "",
-                phoneNumber: principal.FindFirst("phone_number")?.Value ?? "",
-                emailAddress: principal.FindFirst("email")?.Value ?? "",
+                firstName: principal.FindFirst("given_name").Value  "",
+                lastName: principal.FindFirst("family_name").Value  "",
+                phoneNumber: principal.FindFirst("phone_number").Value  "",
+                emailAddress: principal.FindFirst("email").Value  "",
                 fiscalCode: "", // To be filled later in KYC
                 birthDate: DateTime.MinValue // To be filled later
             )
@@ -330,7 +330,7 @@ public class UserSyncService
 
 ---
 
-## ??? Security Best Practices
+##  Security Best Practices
 
 ### 1. Token Refresh Strategy
 - Access Token: Short-lived (15 minutes)
@@ -363,7 +363,7 @@ builder.Services.AddRateLimiter(options =>
 {
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
         RateLimitPartition.GetFixedWindowLimiter(
-            partitionKey: context.User.Identity?.Name ?? context.Request.Headers.Host.ToString(),
+            partitionKey: context.User.Identity.Name  context.Request.Headers.Host.ToString(),
             factory: partition => new FixedWindowRateLimiterOptions
             {
                 AutoReplenishment = true,
@@ -375,7 +375,7 @@ builder.Services.AddRateLimiter(options =>
 
 ---
 
-## ?? Multi-Platform Support
+##  Multi-Platform Support
 
 ### Blazor Web App (OIDC Flow)
 ```csharp
@@ -403,7 +403,7 @@ builder.Services.AddAuthentication(options =>
 
 ---
 
-## ?? Testing
+##  Testing
 
 ### Unit Tests
 ```csharp
@@ -425,7 +425,7 @@ public async Task CreateInvestment_WithoutKyc_ShouldReturn403()
 
 ---
 
-## ?? Resources
+##  Resources
 
 - [Keycloak Documentation](https://www.keycloak.org/documentation)
 - [OIDC Specification](https://openid.net/specs/openid-connect-core-1_0.html)
@@ -434,7 +434,7 @@ public async Task CreateInvestment_WithoutKyc_ShouldReturn403()
 
 ---
 
-## ? Migration Checklist
+##  Migration Checklist
 
 - [ ] Set up Keycloak instance (Docker or managed)
 - [ ] Create GoalGrow realm and clients
