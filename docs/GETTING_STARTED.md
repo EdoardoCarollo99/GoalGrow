@@ -1,27 +1,27 @@
-# ?? Getting Started with GoalGrow
+#  Getting Started with GoalGrow
 
 This guide will help you set up GoalGrow for development in under 10 minutes.
 
 ---
 
-## ?? Prerequisites
+##  Prerequisites
 
 Before you begin, ensure you have:
 
-- ? **[.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)** installed
-- ? **[SQL Server](https://www.microsoft.com/sql-server)** or **SQL Server Express**
-- ? **[Docker Desktop](https://www.docker.com/products/docker-desktop)** (for Keycloak)
-- ? **[Visual Studio 2025](https://visualstudio.microsoft.com/)** or **[VS Code](https://code.visualstudio.com/)**
-- ? **[Git](https://git-scm.com/)** for version control
+-  **[.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)** installed
+-  **[SQL Server](https://www.microsoft.com/sql-server)** or **SQL Server Express**
+-  **[Docker Desktop](https://www.docker.com/products/docker-desktop)** (for Keycloak)
+-  **[Visual Studio 2025](https://visualstudio.microsoft.com/)** or **[VS Code](https://code.visualstudio.com/)**
+-  **[Git](https://git-scm.com/)** for version control
 
 ### Optional Tools
 - **[SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/)** - Database management
 - **[Postman](https://www.postman.com/)** - API testing (future)
-- **[PlantUML Extension](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml)** - View diagrams
+- **[PlantUML Extension](https://marketplace.visualstudio.com/itemsitemName=jebbs.plantuml)** - View diagrams
 
 ---
 
-## ?? Quick Setup (5 minutes)
+##  Quick Setup (5 minutes)
 
 ### Step 1: Clone Repository
 
@@ -53,9 +53,9 @@ dotnet run
 ```
 
 This command will:
-1. ? Create database schema (all tables)
-2. ? Apply migrations
-3. ? Seed sample data:
+1.  Create database schema (all tables)
+2.  Apply migrations
+3.  Seed sample data:
    - 3 users (Admin, Investor, Consultant)
    - System goals (Emergency, Investment)
    - Sample transactions
@@ -64,14 +64,14 @@ This command will:
 
 **Expected output:**
 ```
-?? Starting database seeding...
-? Users seeded
-? Goals seeded
-? Transactions seeded
-? Investment products seeded
-? Badges seeded
-? Challenges seeded
-?? Database seeding completed successfully!
+ Starting database seeding...
+ Users seeded
+ Goals seeded
+ Transactions seeded
+ Investment products seeded
+ Badges seeded
+ Challenges seeded
+ Database seeding completed successfully!
 ```
 
 ### Step 4: Verify Setup
@@ -86,7 +86,7 @@ dotnet ef migrations list --project ../GoalGrow.Data --startup-project .
 
 ---
 
-## ?? Keycloak Setup (Authentication)
+##  Keycloak Setup (Authentication)
 
 ### Option 1: Docker (Recommended for Development)
 
@@ -176,7 +176,7 @@ See [technical/AUTHENTICATION.md](technical/AUTHENTICATION.md) for detailed Keyc
 
 ---
 
-## ??? Database Management
+##  Database Management
 
 ### Connection Strings
 
@@ -210,7 +210,7 @@ dotnet ef database update --project GoalGrow.Data --startup-project GoalGrow.Mig
 # Rollback to specific migration
 dotnet ef database update PreviousMigration --project GoalGrow.Data --startup-project GoalGrow.Migration
 
-# Drop database (?? destructive!)
+# Drop database ( destructive!)
 dotnet ef database drop --project GoalGrow.Data --startup-project GoalGrow.Migration --force
 
 # Re-seed data
@@ -230,9 +230,9 @@ Connect to database with SSMS or Azure Data Studio:
 | consultant@goalgrow.com | - | Consultant | keycloak-consultant-123 |
 
 **Sample Goals:**
-- Emergency Fund (€3,000 target)
-- Investment Fund (€5,000 target, unlocks marketplace)
-- Vacation 2025 (€2,000 target)
+- Emergency Fund (â‚¬3,000 target)
+- Investment Fund (â‚¬5,000 target, unlocks marketplace)
+- Vacation 2025 (â‚¬2,000 target)
 
 **Investment Products:**
 - Stocks: Apple (AAPL), Microsoft (MSFT)
@@ -241,43 +241,43 @@ Connect to database with SSMS or Azure Data Studio:
 
 ---
 
-## ??? Project Structure
+##  Project Structure
 
 ```
 GoalGrow/
-??? GoalGrow.Entity/              # Domain Layer
-?   ??? Common/                   # Base classes
-?   ??? Models/                   # Entities
-?   ??? Enums/                    # Enumerations
-?   ??? ValueObjects/             # Value Objects (Money, DateRange)
-?   ??? Super/                    # Abstract User class
-?
-??? GoalGrow.Data/                # Infrastructure Layer
-?   ??? Configurations/           # EF Core configurations
-?   ?   ??? User/
-?   ?   ??? Financial/
-?   ?   ??? Investment/
-?   ?   ??? Gamification/
-?   ??? Contexts/                 # Module-specific DbContexts
-?   ??? GoalGrowDbContext.cs      # Main DbContext
-?
-??? GoalGrow.Migration/           # Database Management
-?   ??? Program.cs                # Seeder runner
-?   ??? DatabaseSeeder.cs         # Seed data logic
-?   ??? GoalGrowDbContextFactory.cs
-?
-??? docs/                         # Documentation
-?   ??? INDEX.md                  # Documentation hub
-?   ??? GETTING_STARTED.md        # This file
-?   ??? diagrams/                 # PlantUML diagrams
-?   ??? technical/                # Technical docs
-?
-??? CHANGELOG.md                  # Version history
+ GoalGrow.Entity/              # Domain Layer
+    Common/                   # Base classes
+    Models/                   # Entities
+    Enums/                    # Enumerations
+    ValueObjects/             # Value Objects (Money, DateRange)
+    Super/                    # Abstract User class
+
+ GoalGrow.Data/                # Infrastructure Layer
+    Configurations/           # EF Core configurations
+       User/
+       Financial/
+       Investment/
+       Gamification/
+    Contexts/                 # Module-specific DbContexts
+    GoalGrowDbContext.cs      # Main DbContext
+
+ GoalGrow.Migration/           # Database Management
+    Program.cs                # Seeder runner
+    DatabaseSeeder.cs         # Seed data logic
+    GoalGrowDbContextFactory.cs
+
+ docs/                         # Documentation
+    INDEX.md                  # Documentation hub
+    GETTING_STARTED.md        # This file
+    diagrams/                 # PlantUML diagrams
+    technical/                # Technical docs
+
+ CHANGELOG.md                  # Version history
 ```
 
 ---
 
-## ?? Testing Your Setup
+##  Testing Your Setup
 
 ### 1. Build Solution
 
@@ -311,7 +311,7 @@ SELECT * FROM Badges;
 
 ---
 
-## ?? Next Steps
+##  Next Steps
 
 Now that your environment is set up:
 
@@ -335,7 +335,7 @@ Now that your environment is set up:
 
 ---
 
-## ?? Troubleshooting
+##  Troubleshooting
 
 ### Database Connection Issues
 
@@ -369,7 +369,7 @@ Now that your environment is set up:
 
 ---
 
-## ?? Additional Resources
+##  Additional Resources
 
 - [.NET 10 Documentation](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10)
 - [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/)
@@ -378,7 +378,7 @@ Now that your environment is set up:
 
 ---
 
-## ? Setup Checklist
+##  Setup Checklist
 
 - [ ] .NET 10 SDK installed
 - [ ] SQL Server installed and running
@@ -393,6 +393,6 @@ Now that your environment is set up:
 
 ---
 
-**?? You're ready to start developing!**
+** You're ready to start developing!**
 
 See [ROADMAP.md](ROADMAP.md) for the development plan or [technical/API_REFERENCE.md](technical/API_REFERENCE.md) to start building the API.
