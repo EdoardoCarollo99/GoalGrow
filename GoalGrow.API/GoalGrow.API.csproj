@@ -24,4 +24,8 @@
     <ProjectReference Include="..\GoalGrow.Entity\GoalGrow.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
 </Project>

@@ -23,12 +23,12 @@ namespace GoalGrow.API
 
             builder.Host.UseSerilog();
 
-            // Add services
+            // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            // Database
+            // Database configuration
             builder.Services.AddDbContext<GoalGrowDbContext>(options =>
             {
                 var connectionString = builder.Configuration.GetConnectionString("GoalGrowDb");
@@ -38,72 +38,27 @@ namespace GoalGrow.API
                 });
             });
 
-            // JWT Authentication
-            var keycloakAuthority = builder.Configuration["Keycloak:Authority"];
-            var keycloakAudience = builder.Configuration["Keycloak:Audience"];
-
+            // JWT Authentication (basic)
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = keycloakAuthority;
-                    options.Audience = keycloakAudience;
-                    options.RequireHttpsMetadata = builder.Configuration.GetValue<bool>("Keycloak:RequireHttpsMetadata");
-                    
+                    options.Authority = builder.Configuration["Keycloak:Authority"] ?? "https://your-keycloak-server/auth/realms/your-realm";
+                    options.Audience = builder.Configuration["Keycloak:Audience"] ?? "your-client-id";
+                    options.RequireHttpsMetadata = false; // Solo per sviluppo, metti true in produzione
+
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = builder.Configuration.GetValue<bool>("Keycloak:ValidateIssuer"),
-                        ValidateAudience = builder.Configuration.GetValue<bool>("Keycloak:ValidateAudience"),
-                        ValidateLifetime = builder.Configuration.GetValue<bool>("Keycloak:ValidateLifetime"),
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ClockSkew = TimeSpan.FromSeconds(builder.Configuration.GetValue<int>("Keycloak:ClockSkew"))
-                    };
-
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            Log.Error("Authentication failed: {Error}", context.Exception.Message);
-                            return Task.CompletedTask;
-                        },
-                        OnTokenValidated = context =>
-                        {
-                            Log.Information("Token validated for user: {User}", context.Principal?.Identity?.Name);
-                            return Task.CompletedTask;
-                        }
+                        ClockSkew = TimeSpan.FromMinutes(5)
                     };
                 });
-
-            // Authorization Policies
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("InvestorOnly", policy => policy.RequireRole("investor"));
-                options.AddPolicy("ConsultantOnly", policy => policy.RequireRole("consultant"));
-                options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
-                options.AddPolicy("KycVerified", policy => policy.RequireRole("kyc-verified"));
-            });
-
-            // CORS
-            var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowGoalGrowOrigins", policy =>
-                {
-                    policy.WithOrigins(allowedOrigins)
-                          .AllowAnyMethod()
-                          .AllowAnyHeader()
-                          .AllowCredentials();
-                });
-            });
-
-            // AutoMapper
-            builder.Services.AddAutoMapper(typeof(Program));
-
-            // Application Services
-            builder.Services.AddApplicationServices();
 
             var app = builder.Build();
 
-            // Configure HTTP request pipeline
+            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -112,30 +67,8 @@ namespace GoalGrow.API
 
             app.UseHttpsRedirection();
             app.UseSerilogRequestLogging();
-            app.UseCors("AllowGoalGrowOrigins");
-            app.UseAuthentication(); // ? Must be before UseAuthorization
-            app.UseAuthorization();
+            app.UseAuthentication(); // <--- IMPORTANTE: prima di UseAuthorization
             app.MapControllers();
-
-            // Database connection check
-            if (app.Environment.IsDevelopment())
-            {
-                using var scope = app.Services.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<GoalGrowDbContext>();
-                try
-                {
-                    if (db.Database.CanConnect())
-                    {
-                        Log.Information("? Database connection successful");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(ex, "? Database connection failed");
-                }
-            }
-
-            Log.Information("?? GoalGrow API started on {Urls}", string.Join(", ", builder.Configuration.GetSection("urls").Get<string[]>() ?? new[] { "https://localhost:5001" }));
 
             app.Run();
         }
