@@ -22,6 +22,20 @@ namespace GoalGrow.API.DTOs.Responses
             };
         }
 
+        /// <summary>
+        /// Success response without data payload (for operations like logout, delete, etc.)
+        /// </summary>
+        public static ApiResponse<T> SuccessResponse(string? message = null)
+        {
+            return new ApiResponse<T>
+            {
+                Success = true,
+                Message = message ?? "Operation completed successfully",
+                Data = default,
+                Timestamp = DateTime.UtcNow
+            };
+        }
+
         public static ApiResponse<T> ErrorResponse(string message, List<string>? errors = null)
         {
             return new ApiResponse<T>

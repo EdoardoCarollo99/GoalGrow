@@ -82,13 +82,13 @@ namespace GoalGrow.API.Controllers
             try
             {
                 await _authService.LogoutAsync(request.RefreshToken);
-                return Ok(ApiResponse<object>.SuccessResponse(null, "Logout successful"));
+                return Ok(ApiResponse<object>.SuccessResponse("Logout successful"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Logout error");
                 // Anche se fallisce, considera il logout riuscito lato client
-                return Ok(ApiResponse<object>.SuccessResponse(null, "Logout completed"));
+                return Ok(ApiResponse<object>.SuccessResponse("Logout completed"));
             }
         }
 
