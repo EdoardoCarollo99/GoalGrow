@@ -150,5 +150,110 @@ namespace GoalGrow.API.Controllers
                 return StatusCode(500, ApiResponse<object>.ErrorResponse("Internal server error"));
             }
         }
+
+        /// <summary>
+        /// Get current user's wallet information (Investor only)
+        /// </summary>
+        /// <returns>Wallet details including balance, deposits, investments</returns>
+        /// <response code="200">Wallet information retrieved successfully</response>
+        /// <response code="401">Unauthorized</response>
+        /// <response code="403">Forbidden - not an investor user</response>
+        [HttpGet("me/wallet")]
+        [Authorize(Roles = "investor")]
+        [ProducesResponseType(typeof(ApiResponse<WalletResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status403Forbidden)]
+        public async Task<IActionResult> GetMyWallet()
+        {
+            try
+            {
+                var user = await _userService.GetOrCreateUserAsync(User);
+                var wallet = await _userService.GetUserWalletAsync(user.Id);
+
+                _logger.LogInformation("Wallet retrieved for user {UserId}", user.Id);
+
+                return Ok(ApiResponse<WalletResponse>.SuccessResponse(
+                    wallet,
+                    "Wallet information retrieved successfully"
+                ));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                _logger.LogWarning("User not found: {Message}", ex.Message);
+                return NotFound(ApiResponse<object>.ErrorResponse("User not found or not an investor"));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving wallet");
+                return StatusCode(500, ApiResponse<object>.ErrorResponse("Internal server error"));
+            }
+        }
+
+        /// <summary>
+        /// Get current user's accounts (bank accounts, payment methods)
+        /// </summary>
+        /// <returns>List of user accounts</returns>
+        /// <response code="200">Accounts retrieved successfully</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpGet("me/accounts")]
+        [ProducesResponseType(typeof(ApiResponse<List<AccountSummaryResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetMyAccounts()
+        {
+            try
+            {
+                var user = await _userService.GetOrCreateUserAsync(User);
+                var accounts = await _userService.GetUserAccountsAsync(user.Id);
+
+                _logger.LogInformation("Accounts retrieved for user {UserId}, Count: {Count}", user.Id, accounts.Count);
+
+                return Ok(ApiResponse<List<AccountSummaryResponse>>.SuccessResponse(
+                    accounts,
+                    $"{accounts.Count} account(s) retrieved successfully"
+                ));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving user accounts");
+                return StatusCode(500, ApiResponse<object>.ErrorResponse("Internal server error"));
+            }
+        }
+
+        /// <summary>
+        /// Delete current user account (GDPR right to be forgotten)
+        /// </summary>
+        /// <param name="reason">Optional reason for deletion</param>
+        /// <returns>Confirmation of deletion</returns>
+        /// <response code="200">Account deleted successfully</response>
+        /// <response code="401">Unauthorized</response>
+        [HttpDelete("me")]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> DeleteMyAccount([FromQuery] string? reason = null)
+        {
+            try
+            {
+                var user = await _userService.GetOrCreateUserAsync(User);
+                
+                _logger.LogWarning("User deletion requested by {UserId}. Reason: {Reason}", user.Id, reason ?? "Not specified");
+
+                var deleted = await _userService.DeleteUserAccountAsync(user.Id, reason);
+
+                if (!deleted)
+                {
+                    return StatusCode(500, ApiResponse<object>.ErrorResponse("Failed to delete account"));
+                }
+
+                return Ok(ApiResponse<object>.SuccessResponse(
+                    new { UserId = user.Id, DeletedAt = DateTime.UtcNow },
+                    "Account deleted successfully. Your data has been anonymized."
+                ));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting user account");
+                return StatusCode(500, ApiResponse<object>.ErrorResponse("Internal server error"));
+            }
+        }
     }
 }

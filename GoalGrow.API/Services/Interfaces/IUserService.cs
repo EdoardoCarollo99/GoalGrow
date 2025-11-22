@@ -52,5 +52,45 @@ namespace GoalGrow.API.Services.Interfaces
         /// <param name="email">Email address</param>
         /// <returns>True if user exists</returns>
         Task<bool> UserExistsByEmailAsync(string email);
+
+        // NEW METHODS
+
+        /// <summary>
+        /// Gets wallet information for the current investor user
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <returns>Wallet details</returns>
+        Task<WalletResponse> GetUserWalletAsync(Guid userId);
+
+        /// <summary>
+        /// Gets all accounts (bank accounts, payment methods) for a user
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <returns>List of user accounts</returns>
+        Task<List<AccountSummaryResponse>> GetUserAccountsAsync(Guid userId);
+
+        /// <summary>
+        /// Gets paginated list of all users (Admin only)
+        /// </summary>
+        /// <param name="pageNumber">Page number (1-based)</param>
+        /// <param name="pageSize">Items per page</param>
+        /// <param name="searchTerm">Optional search term (email, name)</param>
+        /// <param name="userType">Optional filter by user type</param>
+        /// <returns>Paginated user list</returns>
+        Task<UserListResponse> GetUsersAsync(int pageNumber, int pageSize, string? searchTerm = null, string? userType = null);
+
+        /// <summary>
+        /// Gets platform-wide user statistics (Admin only)
+        /// </summary>
+        /// <returns>User statistics</returns>
+        Task<UserStatsResponse> GetUserStatsAsync();
+
+        /// <summary>
+        /// Soft deletes a user account (GDPR right to be forgotten)
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <param name="reason">Deletion reason</param>
+        /// <returns>True if successful</returns>
+        Task<bool> DeleteUserAccountAsync(Guid userId, string? reason = null);
     }
 }

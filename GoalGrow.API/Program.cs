@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text.Json;
 
 namespace GoalGrow.API
 {
@@ -49,9 +50,69 @@ namespace GoalGrow.API
                     },
                     OnTokenValidated = context =>
                     {
-                        // Log dei claim ricevuti (debug)
+                        if (context.Principal?.Identity is ClaimsIdentity identity)
+                        {
+                            // Estrai i ruoli da realm_access
+                            var realmAccessClaim = identity.FindFirst("realm_access");
+                            if (realmAccessClaim != null)
+                            {
+                                try
+                                {
+                                    var realmAccess = JsonSerializer.Deserialize<JsonElement>(realmAccessClaim.Value);
+                                    if (realmAccess.TryGetProperty("roles", out var rolesElement))
+                                    {
+                                        var roles = rolesElement.EnumerateArray()
+                                            .Select(role => role.GetString())
+                                            .Where(role => !string.IsNullOrEmpty(role));
+
+                                        // Aggiungi ogni ruolo come claim separato
+                                        foreach (var role in roles)
+                                        {
+                                            identity.AddClaim(new Claim(ClaimTypes.Role, role!));
+                                        }
+
+                                        Console.WriteLine($"Roles extracted: {string.Join(", ", roles)}");
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($"Error parsing realm_access: {ex.Message}");
+                                }
+                            }
+
+                            // Estrai anche i ruoli da resource_access (opzionale)
+                            var resourceAccessClaim = identity.FindFirst("resource_access");
+                            if (resourceAccessClaim != null)
+                            {
+                                try
+                                {
+                                    var resourceAccess = JsonSerializer.Deserialize<JsonElement>(resourceAccessClaim.Value);
+                                    foreach (var client in resourceAccess.EnumerateObject())
+                                    {
+                                        if (client.Value.TryGetProperty("roles", out var clientRoles))
+                                        {
+                                            var roles = clientRoles.EnumerateArray()
+                                                .Select(role => role.GetString())
+                                                .Where(role => !string.IsNullOrEmpty(role));
+
+                                            foreach (var role in roles)
+                                            {
+                                                identity.AddClaim(new Claim(ClaimTypes.Role, $"{client.Name}:{role}"));
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($"Error parsing resource_access: {ex.Message}");
+                                }
+                            }
+                        }
+
+                        // Log dei claim finali (debug)
                         var claims = context.Principal?.Claims.Select(c => $"{c.Type}={c.Value}");
-                        Console.WriteLine($"Token validated. Claims: {string.Join(", ", claims ?? [])}");
+                        Console.WriteLine($"Token validated. Final claims: {string.Join(", ", claims ?? [])}");
+                        
                         return Task.CompletedTask;
                     }
                 };
@@ -65,7 +126,7 @@ namespace GoalGrow.API
                     ClockSkew = TimeSpan.FromMinutes(5),
                     // Mappa i claim con nomi standard
                     NameClaimType = "preferred_username", // User.Identity.Name
-                    RoleClaimType = "realm_access.roles"  // User.IsInRole("admin")
+                    RoleClaimType = ClaimTypes.Role  // Usa il claim type standard per i ruoli
                 };
             });
 
