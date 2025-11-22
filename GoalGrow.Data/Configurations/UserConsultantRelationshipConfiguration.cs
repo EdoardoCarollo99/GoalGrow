@@ -10,8 +10,9 @@ namespace GoalGrow.Data.Configurations
         {
             builder.HasKey(ucr => ucr.Id);
 
-            builder.HasIndex(ucr => ucr.InvestorUserId);
-            builder.HasIndex(ucr => new { ucr.ConsultantUserId, ucr.Status });
+            builder.HasIndex(ucr => ucr.InvestorUserId)
+                .IsUnique(); // 1:1 relationship: investor può avere 1 solo consulente
+            builder.HasIndex(ucr => new { ucr.ConsultantUserId, ucr.Status }); // Consulente ? clienti attivi
 
             // Relazioni
             builder.HasOne(ucr => ucr.InvestorUser)

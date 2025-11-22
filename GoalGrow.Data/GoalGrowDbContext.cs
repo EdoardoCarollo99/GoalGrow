@@ -19,6 +19,7 @@ namespace GoalGrow.Data
         public DbSet<User> Users { get; set; }
         public DbSet<InversotorUser> InvestorUsers { get; set; }
         public DbSet<ConsultantUser> ConsultantUsers { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
         #endregion
 
         #region Financial Core
@@ -70,7 +71,7 @@ namespace GoalGrow.Data
             // User Inheritance (TPH - Table Per Hierarchy)
             modelBuilder.Entity<User>()
                 .HasDiscriminator<UserType>("UserType")
-                .HasValue<User>(UserType.AdminUser)
+                .HasValue<AdminUser>(UserType.AdminUser)
                 .HasValue<InversotorUser>(UserType.InvestorUser)
                 .HasValue<ConsultantUser>(UserType.ConsultantUser);
         }

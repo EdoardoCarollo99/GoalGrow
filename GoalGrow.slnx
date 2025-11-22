@@ -10,4 +10,22 @@
   <Folder Name="/SolutionItems/">
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/SolutionItems/Docs/">
+    <File Path="docs/BUSINESS_REQUIREMENTS.md" />
+    <File Path="docs/GETTING_STARTED.md" />
+    <File Path="docs/IMPLEMENTATION_CHECKLIST.md" />
+    <File Path="docs/INDEX.md" />
+    <File Path="docs/ROADMAP.md" />
+  </Folder>
+  <Folder Name="/SolutionItems/Docs/Diagrams/">
+    <File Path="docs/diagrams/01-SystemOverview.puml" />
+    <File Path="docs/diagrams/02-UserManagement.puml" />
+    <File Path="docs/diagrams/03-FinancialCore.puml" />
+    <File Path="docs/diagrams/04-InvestmentSystem.puml" />
+    <File Path="docs/diagrams/05-Gamification.puml" />
+  </Folder>
+  <Folder Name="/SolutionItems/Docs/Thecnical/">
+    <File Path="docs/technical/ARCHITECTURE.md" />
+    <File Path="docs/technical/AUTHENTICATION.md" />
+  </Folder>
 </Solution>
