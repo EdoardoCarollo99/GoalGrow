@@ -1,10 +1,10 @@
 # GoalGrow - Indice Documentazione
 
-Benvenuto nella documentazione completa di **GoalGrow**. Questa pagina è il punto di partenza per navigare tra i vari documenti tecnici, business e architetturali del progetto.
+Benvenuto nella documentazione completa di **GoalGrow**. Questa pagina Ã¨ il punto di partenza per navigare tra i vari documenti tecnici, business e architetturali del progetto.
 
 ---
 
-## ?? Navigazione Rapida
+##  Navigazione Rapida
 
 ### Per Iniziare
 - **[Setup Completo](setup/COMPLETE_SETUP_GUIDE.md)** - Guida passo-passo per configurare ambiente di sviluppo
@@ -23,42 +23,42 @@ Benvenuto nella documentazione completa di **GoalGrow**. Questa pagina è il punt
 
 ---
 
-## ??? Struttura Documentazione
+##  Struttura Documentazione
 
 ```
 docs/
-??? INDEX.md                          # Questo file
-??? GETTING_STARTED.md                # Quick start
-??? BUSINESS_REQUIREMENTS.md          # Requisiti business
-??? ROADMAP.md                        # Piano sviluppo
-??? TASK_LIST.md                      # Checklist task
-??? IMPLEMENTATION_CHECKLIST.md       # Checklist implementazione
-?
-??? setup/                            # Guide installazione
-?   ??? COMPLETE_SETUP_GUIDE.md       # Setup completo step-by-step
-?   ??? SETUP_GUIDE.md                # Setup rapido
-?   ??? START_HERE.md                 # Prima installazione
-?
-??? technical/                        # Documentazione tecnica
-?   ??? ARCHITECTURE.md               # Architettura sistema
-?   ??? AUTHENTICATION.md             # Autenticazione Keycloak
-?   ??? DATABASE_AUDIT.md             # Audit database
-?   ??? DATABASE_OPTIMIZATION_SUMMARY.md  # Ottimizzazioni DB
-?
-??? architecture/                     # Design architetturale
-?   ??? CLEAN_ARCHITECTURE.md         # Clean Architecture
-?   ??? DOMAIN_DRIVEN_DESIGN.md       # DDD pattern
-?   ??? LAYERS.md                     # Divisione layer
-?
-??? business/                         # Documentazione business
-    ??? USER_JOURNEY.md               # Customer journey
-    ??? REVENUE_MODEL.md              # Modello revenue
-    ??? COMPLIANCE.md                 # GDPR, KYC, MIFID II
+ INDEX.md                          # Questo file
+ GETTING_STARTED.md                # Quick start
+ BUSINESS_REQUIREMENTS.md          # Requisiti business
+ ROADMAP.md                        # Piano sviluppo
+ TASK_LIST.md                      # Checklist task
+ IMPLEMENTATION_CHECKLIST.md       # Checklist implementazione
+
+ setup/                            # Guide installazione
+    COMPLETE_SETUP_GUIDE.md       # Setup completo step-by-step
+    SETUP_GUIDE.md                # Setup rapido
+    START_HERE.md                 # Prima installazione
+
+ technical/                        # Documentazione tecnica
+    ARCHITECTURE.md               # Architettura sistema
+    AUTHENTICATION.md             # Autenticazione Keycloak
+    DATABASE_AUDIT.md             # Audit database
+    DATABASE_OPTIMIZATION_SUMMARY.md  # Ottimizzazioni DB
+
+ architecture/                     # Design architetturale
+    CLEAN_ARCHITECTURE.md         # Clean Architecture
+    DOMAIN_DRIVEN_DESIGN.md       # DDD pattern
+    LAYERS.md                     # Divisione layer
+
+ business/                         # Documentazione business
+     USER_JOURNEY.md               # Customer journey
+     REVENUE_MODEL.md              # Modello revenue
+     COMPLIANCE.md                 # GDPR, KYC, MIFID II
 ```
 
 ---
 
-## ?? Documenti per Categoria
+##  Documenti per Categoria
 
 ### Setup e Installazione
 
@@ -87,7 +87,7 @@ docs/
 
 ---
 
-## ?? Percorsi di Lettura Consigliati
+##  Percorsi di Lettura Consigliati
 
 ### Per Nuovi Sviluppatori
 
@@ -113,7 +113,7 @@ docs/
 
 ---
 
-## ?? Aggiornamenti Documentazione
+##  Aggiornamenti Documentazione
 
 | Data | Versione | Modifiche |
 |------|----------|-----------|
@@ -122,7 +122,7 @@ docs/
 
 ---
 
-## ?? Convenzioni Documentazione
+##  Convenzioni Documentazione
 
 ### Naming
 - `SCREAMING_SNAKE_CASE.md` per documenti root
@@ -130,7 +130,7 @@ docs/
 - `kebab-case.puml` per diagrammi PlantUML
 
 ### Struttura Documenti
-- Usare emoji per migliorare leggibilità (?? ?? ???)
+- Usare emoji per migliorare leggibilitÃ  (  )
 - Includere Table of Contents per documenti >500 righe
 - Link tra documenti correlati
 - Mantenere esempi codice aggiornati
@@ -144,9 +144,9 @@ Ogni documento dovrebbe includere:
 
 ---
 
-## ?? Supporto
+##  Supporto
 
-### Documentazione Mancante?
+### Documentazione Mancante
 
 Se non trovi la documentazione che cerchi:
 1. Controlla [GitHub Issues](https://github.com/EdoardoCarollo99/GoalGrow/issues)
