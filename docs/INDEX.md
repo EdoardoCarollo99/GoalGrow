@@ -1,162 +1,168 @@
-#  GoalGrow Documentation
+# GoalGrow - Indice Documentazione
 
-Welcome to the GoalGrow documentation hub. This is your central reference for understanding and working with the platform.
-
----
-
-##  Documentation Structure
-
-###  Getting Started
-- **[Getting Started Guide](GETTING_STARTED.md)** - Setup and first steps
-- **[System Overview](SYSTEM_OVERVIEW.md)** - Architecture and components
-- **[User Journey](USER_JOURNEY.md)** - End-to-end user experience
-
-###  Technical Documentation
-- **[Database Schema](technical/DATABASE.md)** - Tables, relationships, migrations
-- **[Authentication](technical/AUTHENTICATION.md)** - Keycloak & JWT setup
-- **[API Reference](technical/API_REFERENCE.md)** - REST API endpoints *(coming soon)*
-- **[Domain Models](technical/DOMAIN_MODELS.md)** - Entity reference
-- **[Value Objects](technical/VALUE_OBJECTS.md)** - Money, DateRange, Rating
-- **[Services](technical/SERVICES.md)** - Business logic layer *(coming soon)*
-
-###  Architecture
-- **[Architecture Overview](technical/ARCHITECTURE.md)** - Clean Architecture layers
-- **[Domain Modules](technical/MODULES.md)** - Financial, Investment, Gamification
-- **[Design Patterns](technical/DESIGN_PATTERNS.md)** - DDD, Repository, CQRS
-
-###  Diagrams
-- **[System Overview](diagrams/01-SystemOverview.puml)** - High-level components
-- **[User Management](diagrams/02-UserManagement.puml)** - Auth & users
-- **[Financial Core](diagrams/03-FinancialCore.puml)** - Accounts, goals, budgets
-- **[Investment System](diagrams/04-InvestmentSystem.puml)** - Portfolios & products
-- **[Gamification](diagrams/05-Gamification.puml)** - XP, badges, challenges
-
-###  Development
-- **[Roadmap](ROADMAP.md)** - Feature timeline (11-month MVP)
-- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
-- **[Testing Strategy](technical/TESTING.md)** - Unit, integration, E2E
-- **[Deployment](technical/DEPLOYMENT.md)** - Azure setup & CI/CD
-
-###  Business
-- **[Business Requirements](BUSINESS_REQUIREMENTS.md)** - Goals, KPIs, revenue model
-- **[Compliance](technical/COMPLIANCE.md)** - GDPR, KYC/AML, MIFID II
-- **[Security](technical/SECURITY.md)** - Best practices & audit
+Benvenuto nella documentazione completa di **GoalGrow**. Questa pagina è il punto di partenza per navigare tra i vari documenti tecnici, business e architetturali del progetto.
 
 ---
 
-##  Quick Reference
+## ?? Navigazione Rapida
 
-### Common Tasks
+### Per Iniziare
+- **[Setup Completo](setup/COMPLETE_SETUP_GUIDE.md)** - Guida passo-passo per configurare ambiente di sviluppo
+- **[Getting Started](GETTING_STARTED.md)** - Quick start per sviluppatori
+- **[Start Here](setup/START_HERE.md)** - Prima installazione
 
-| Task | Documentation |
-|------|---------------|
-| Setup development environment | [Getting Started](GETTING_STARTED.md) |
-| Run database migrations | [Database Guide](technical/DATABASE.md#migrations) |
-| Configure Keycloak | [Authentication](technical/AUTHENTICATION.md#keycloak-setup) |
-| Add new entity | [Domain Models](technical/DOMAIN_MODELS.md#creating-entities) |
-| View UML diagrams | [Diagrams](diagrams/) |
-| Check project status | [CHANGELOG.md](../CHANGELOG.md) |
+### Architettura e Design
+- **[Architecture Overview](technical/ARCHITECTURE.md)** - Architettura sistema e pattern
+- **[Database Schema](technical/DATABASE_AUDIT.md)** - Schema DB, foreign keys, indici
+- **[Authentication](technical/AUTHENTICATION.md)** - Integrazione Keycloak OIDC
 
-### Technology Stack
-
-| Component | Documentation |
-|-----------|---------------|
-| .NET 10 | [Microsoft Docs](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-10) |
-| EF Core 10 | [Database Guide](technical/DATABASE.md) |
-| Blazor | *(coming soon)* |
-| Keycloak | [Authentication](technical/AUTHENTICATION.md) |
-| SQL Server | [Database Guide](technical/DATABASE.md) |
+### Business e Requisiti
+- **[Business Requirements](BUSINESS_REQUIREMENTS.md)** - Requisiti funzionali, KPI, revenue model
+- **[Roadmap](ROADMAP.md)** - Piano sviluppo e milestone
+- **[Task List](TASK_LIST.md)** - Checklist implementazione
 
 ---
 
-##  External Resources
-
-- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) by Uncle Bob
-- [Domain-Driven Design](https://martinfowler.com/bliki/DomainDrivenDesign.html) by Martin Fowler
-- [EF Core Documentation](https://learn.microsoft.com/en-us/ef/core/)
-- [Keycloak Documentation](https://www.keycloak.org/documentation)
-- [PlantUML Guide](https://plantuml.com/)
-
----
-
-##  Support
-
-### Getting Help
-
-1. **Check Documentation** - Start here in `/docs`
-2. **Read CHANGELOG** - See [CHANGELOG.md](../CHANGELOG.md) for recent changes
-3. **View Examples** - Check `DatabaseSeeder.cs` for sample data
-4. **Open Issue** - [GitHub Issues](https://github.com/EdoardoCarollo99/GoalGrow/issues)
-
-### Reporting Issues
-
-When reporting bugs, include:
-- Steps to reproduce
-- Expected vs actual behavior
-- Environment (.NET version, OS, database)
-- Relevant logs
-
----
-
-##  Documentation Standards
-
-### File Naming
-- Use `SCREAMING_SNAKE_CASE.md` for root-level docs
-- Use `PascalCase.md` for nested technical docs
-- Use `kebab-case.puml` for diagrams
-
-### Structure
-- Use emoji for better readability (  )
-- Include table of contents for long docs
-- Link between related documents
-- Keep code examples up-to-date
-
----
-
-##  Document Map
+## ??? Struttura Documentazione
 
 ```
 docs/
- INDEX.md (you are here)
- GETTING_STARTED.md
- SYSTEM_OVERVIEW.md
- USER_JOURNEY.md
- BUSINESS_REQUIREMENTS.md
- ROADMAP.md
- CONTRIBUTING.md
- diagrams/
-    01-SystemOverview.puml
-    02-UserManagement.puml
-    03-FinancialCore.puml
-    04-InvestmentSystem.puml
-    05-Gamification.puml
- technical/
-     ARCHITECTURE.md
-     DATABASE.md
-     AUTHENTICATION.md
-     DOMAIN_MODELS.md
-     VALUE_OBJECTS.md
-     MODULES.md
-     DESIGN_PATTERNS.md
-     API_REFERENCE.md
-     SERVICES.md
-     TESTING.md
-     DEPLOYMENT.md
-     COMPLIANCE.md
-     SECURITY.md
+??? INDEX.md                          # Questo file
+??? GETTING_STARTED.md                # Quick start
+??? BUSINESS_REQUIREMENTS.md          # Requisiti business
+??? ROADMAP.md                        # Piano sviluppo
+??? TASK_LIST.md                      # Checklist task
+??? IMPLEMENTATION_CHECKLIST.md       # Checklist implementazione
+?
+??? setup/                            # Guide installazione
+?   ??? COMPLETE_SETUP_GUIDE.md       # Setup completo step-by-step
+?   ??? SETUP_GUIDE.md                # Setup rapido
+?   ??? START_HERE.md                 # Prima installazione
+?
+??? technical/                        # Documentazione tecnica
+?   ??? ARCHITECTURE.md               # Architettura sistema
+?   ??? AUTHENTICATION.md             # Autenticazione Keycloak
+?   ??? DATABASE_AUDIT.md             # Audit database
+?   ??? DATABASE_OPTIMIZATION_SUMMARY.md  # Ottimizzazioni DB
+?
+??? architecture/                     # Design architetturale
+?   ??? CLEAN_ARCHITECTURE.md         # Clean Architecture
+?   ??? DOMAIN_DRIVEN_DESIGN.md       # DDD pattern
+?   ??? LAYERS.md                     # Divisione layer
+?
+??? business/                         # Documentazione business
+    ??? USER_JOURNEY.md               # Customer journey
+    ??? REVENUE_MODEL.md              # Modello revenue
+    ??? COMPLIANCE.md                 # GDPR, KYC, MIFID II
 ```
 
 ---
 
-##  Keeping Documentation Updated
+## ?? Documenti per Categoria
 
-- Update docs when changing code
-- Link PRs to related documentation updates
-- Review docs during code reviews
-- Run examples to verify accuracy
+### Setup e Installazione
+
+| Documento | Descrizione | Target |
+|-----------|-------------|--------|
+| [Complete Setup Guide](setup/COMPLETE_SETUP_GUIDE.md) | Guida completa installazione ambiente | Nuovi sviluppatori |
+| [Setup Guide](setup/SETUP_GUIDE.md) | Setup rapido | Sviluppatori esperti |
+| [Start Here](setup/START_HERE.md) | Prima installazione | Tutti |
+
+### Tecnica
+
+| Documento | Descrizione | Target |
+|-----------|-------------|--------|
+| [Architecture](technical/ARCHITECTURE.md) | Panoramica architettura | Architetti, dev senior |
+| [Database Audit](technical/DATABASE_AUDIT.md) | Schema DB, FK, indici, performance | DBA, backend dev |
+| [Authentication](technical/AUTHENTICATION.md) | Keycloak OIDC integration | Backend dev, security |
+| [Database Optimization](technical/DATABASE_OPTIMIZATION_SUMMARY.md) | Riepilogo ottimizzazioni DB | DBA |
+
+### Business e Prodotto
+
+| Documento | Descrizione | Target |
+|-----------|-------------|--------|
+| [Business Requirements](BUSINESS_REQUIREMENTS.md) | Requisiti funzionali completi | PM, stakeholder |
+| [Roadmap](ROADMAP.md) | Piano sviluppo e milestone | PM, dev team |
+| [Implementation Checklist](IMPLEMENTATION_CHECKLIST.md) | Checklist task implementazione | Dev team |
 
 ---
 
-**Last Updated:** 2025-01-18  
-**Version:** 1.0  
-**Maintained by:** Edoardo Carollo
+## ?? Percorsi di Lettura Consigliati
+
+### Per Nuovi Sviluppatori
+
+1. **[README principale](../README.md)** - Panoramica progetto
+2. **[Getting Started](GETTING_STARTED.md)** - Setup ambiente
+3. **[Complete Setup Guide](setup/COMPLETE_SETUP_GUIDE.md)** - Installazione dettagliata
+4. **[Architecture](technical/ARCHITECTURE.md)** - Comprensione architettura
+5. **[Database Audit](technical/DATABASE_AUDIT.md)** - Schema database
+
+### Per Product Manager / Stakeholder
+
+1. **[README principale](../README.md)** - Overview tecnico
+2. **[Business Requirements](BUSINESS_REQUIREMENTS.md)** - Requisiti completi
+3. **[Roadmap](ROADMAP.md)** - Piano sviluppo
+4. **User Journey** *(coming soon)* - Customer experience
+
+### Per DevOps / SRE
+
+1. **[Setup Guide](setup/SETUP_GUIDE.md)** - Ambiente deployment
+2. **[Database Audit](technical/DATABASE_AUDIT.md)** - Performance DB
+3. **[Authentication](technical/AUTHENTICATION.md)** - Security setup
+4. **Deployment Guide** *(coming soon)* - CI/CD pipeline
+
+---
+
+## ?? Aggiornamenti Documentazione
+
+| Data | Versione | Modifiche |
+|------|----------|-----------|
+| 2025-01-18 | 0.1.0 | Creazione struttura documentazione iniziale |
+| 2025-01-18 | 0.1.1 | Riorganizzazione file MD in cartelle tematiche |
+
+---
+
+## ?? Convenzioni Documentazione
+
+### Naming
+- `SCREAMING_SNAKE_CASE.md` per documenti root
+- `PascalCase.md` per documenti nested
+- `kebab-case.puml` per diagrammi PlantUML
+
+### Struttura Documenti
+- Usare emoji per migliorare leggibilità (?? ?? ???)
+- Includere Table of Contents per documenti >500 righe
+- Link tra documenti correlati
+- Mantenere esempi codice aggiornati
+
+### Metadata
+Ogni documento dovrebbe includere:
+- **Autore**: Nome autore principale
+- **Data**: Data ultima revisione
+- **Versione**: Versione documento
+- **Status**: Draft / Review / Approved
+
+---
+
+## ?? Supporto
+
+### Documentazione Mancante?
+
+Se non trovi la documentazione che cerchi:
+1. Controlla [GitHub Issues](https://github.com/EdoardoCarollo99/GoalGrow/issues)
+2. Cerca nell'indice sopra
+3. Apri una Issue con label `documentation`
+
+### Contribuire alla Documentazione
+
+1. Fork repository
+2. Crea branch `docs/nome-documento`
+3. Aggiungi/modifica documento
+4. Aggiorna questo INDEX.md
+5. Apri Pull Request
+
+---
+
+**Ultima Revisione**: 2025-01-18  
+**Versione Documentazione**: 1.0.0  
+**Maintainer**: Edoardo Carollo
