@@ -28,6 +28,7 @@ namespace GoalGrow.API
 
             // Services
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddAuthentication(options =>
             {

@@ -15,6 +15,24 @@ namespace GoalGrow.API.Extensions
         }
 
         /// <summary>
+        /// Ottiene il claim sub (user ID) come Guid dal database (non Keycloak sub)
+        /// Cerca prima il claim custom 'user_id' che dovrebbe contenere il GUID del database
+        /// </summary>
+        public static Guid GetUserIdAsGuid(this ClaimsPrincipal principal)
+        {
+            // Cerca prima un claim custom 'user_id' che contiene il GUID del database
+            var userIdClaim = principal.FindFirst("user_id")?.Value;
+            
+            if (!string.IsNullOrEmpty(userIdClaim) && Guid.TryParse(userIdClaim, out var userId))
+            {
+                return userId;
+            }
+
+            // Se non trovato, ritorna Guid.Empty (il controller dovrà gestire questo caso)
+            return Guid.Empty;
+        }
+
+        /// <summary>
         /// Ottiene il claim email da JWT, supportando sia nomi standard che Microsoft
         /// </summary>
         public static string? GetEmail(this ClaimsPrincipal principal)
