@@ -312,6 +312,17 @@ Contributi sono benvenuti! Per favore:
 4. Push al branch (`git push origin feature/AmazingFeature`)
 5. Apri Pull Request
 
+### Strategia di branching
+
+Lo sviluppo è organizzato come segue:
+
+- Il branch `develop` è il ramo principale di sviluppo: da `develop` si creano i branch per le feature (es. `feature/<nome>`).
+- Le feature vengono sviluppate sui rispettivi branch e, quando pronte, vengono mergeate in `develop`.
+- Periodicamente il contenuto di `develop` viene promosso su un branch `test` per le verifiche e la validazione.
+- Dopo il ciclo di test, le modifiche verificate vengono unite nel branch `master` (ramo di produzione).
+
+Seguire questa strategia per mantenere un flusso di lavoro ordinato e facilitare le review e il rilascio.
+
 ---
 
 ## License
