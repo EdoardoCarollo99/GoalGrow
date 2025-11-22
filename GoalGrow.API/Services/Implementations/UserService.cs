@@ -31,16 +31,41 @@ namespace GoalGrow.API.Services.Implementations
         /// </summary>
         public async Task<User> GetOrCreateUserAsync(ClaimsPrincipal claims)
         {
+            // Log all claims for debugging
+            var allClaims = claims.Claims.Select(c => $"{c.Type}={c.Value}").ToList();
+            _logger.LogDebug("Received claims: {Claims}", string.Join(", ", allClaims));
+
             // Extract claims from JWT token
+            // Try multiple claim names for Subject ID
             var keycloakSubjectId = claims.FindFirst("sub")?.Value
-                ?? throw new UnauthorizedAccessException("Missing 'sub' claim in token");
+                ?? claims.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                ?? claims.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
 
-            var email = claims.GetEmail()
-                ?? throw new UnauthorizedAccessException("Missing email claim in token");
+            if (string.IsNullOrEmpty(keycloakSubjectId))
+            {
+                _logger.LogError("Missing subject claim in token. Available claims: {Claims}", string.Join(", ", allClaims));
+                throw new UnauthorizedAccessException($"Missing 'sub' claim in token. Available claims: {allClaims.Count}");
+            }
 
-            var firstName = claims.FindFirst("given_name")?.Value ?? string.Empty;
-            var lastName = claims.FindFirst("family_name")?.Value ?? string.Empty;
-            var username = claims.FindFirst("preferred_username")?.Value ?? email;
+            var email = claims.GetEmail();
+            
+            if (string.IsNullOrEmpty(email))
+            {
+                _logger.LogError("Missing email claim in token. Available claims: {Claims}", string.Join(", ", allClaims));
+                throw new UnauthorizedAccessException($"Missing email claim in token. Available claims: {allClaims.Count}");
+            }
+
+            var firstName = claims.FindFirst("given_name")?.Value 
+                ?? claims.FindFirst(ClaimTypes.GivenName)?.Value 
+                ?? string.Empty;
+                
+            var lastName = claims.FindFirst("family_name")?.Value 
+                ?? claims.FindFirst(ClaimTypes.Surname)?.Value 
+                ?? string.Empty;
+                
+            var username = claims.FindFirst("preferred_username")?.Value 
+                ?? claims.FindFirst(ClaimTypes.Name)?.Value 
+                ?? email;
 
             _logger.LogInformation("Syncing user with Keycloak SubjectId: {SubjectId}, Email: {Email}", 
                 keycloakSubjectId, email);
