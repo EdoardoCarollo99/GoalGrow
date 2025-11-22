@@ -150,40 +150,5 @@ namespace GoalGrow.API.Controllers
                 return StatusCode(500, ApiResponse<object>.ErrorResponse("Internal server error"));
             }
         }
-
-        /// <summary>
-        /// DEBUG: Get all claims from JWT token
-        /// </summary>
-        [HttpGet("debug/claims")]
-        [AllowAnonymous] // Temporarily allow anonymous for debugging
-        [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status200OK)]
-        public IActionResult GetClaims()
-        {
-            var claims = User.Claims.Select(c => new
-            {
-                Type = c.Type,
-                Value = c.Value,
-                ValueType = c.ValueType,
-                Issuer = c.Issuer
-            }).ToList();
-
-            var claimsInfo = new
-            {
-                IsAuthenticated = User.Identity?.IsAuthenticated ?? false,
-                AuthenticationType = User.Identity?.AuthenticationType,
-                Name = User.Identity?.Name,
-                TotalClaims = claims.Count,
-                Claims = claims,
-                // Try to find 'sub' claim with different methods
-                SubClaim = User.FindFirst("sub")?.Value,
-                SubClaimMicrosoft = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value,
-                EmailClaim = User.FindFirst("email")?.Value,
-                EmailClaimMicrosoft = User.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value
-            };
-
-            _logger.LogInformation("Debug claims endpoint called. Total claims: {Count}", claims.Count);
-
-            return Ok(ApiResponse<object>.SuccessResponse(claimsInfo, "Claims retrieved"));
-        }
     }
 }
