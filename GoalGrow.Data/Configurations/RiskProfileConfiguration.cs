@@ -16,11 +16,11 @@ namespace GoalGrow.Data.Configurations
             builder.Property(rp => rp.NetWorth).HasPrecision(18, 2);
             builder.Property(rp => rp.LiquidAssets).HasPrecision(18, 2);
 
-            // Relationship
+            // Relationship (1:1 con Investor)
             builder.HasOne(rp => rp.User)
                 .WithOne(iu => iu.RiskProfile)
                 .HasForeignKey<RiskProfile>(rp => rp.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict); // Cambiato da Cascade a Restrict per sicurezza
         }
     }
 }

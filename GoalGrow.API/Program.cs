@@ -1,9 +1,13 @@
 using GoalGrow.API.Extensions;
+using GoalGrow.API.Services.Implementations;
+using GoalGrow.API.Services.Interfaces;
 using GoalGrow.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Serilog;
+using Scalar.AspNetCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace GoalGrow.API
 {
@@ -13,22 +17,60 @@ namespace GoalGrow.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Configure Serilog
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(builder.Configuration)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.File("logs/goalgrow-.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
+            // Preserva i claim JWT originali (non mappare in nomi Microsoft)
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            builder.Host.UseSerilog();
-
-            // Add services to the container.
             builder.Services.AddControllers();
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddOpenApi();
 
-            // Database configuration
+            // HttpClient per AuthService
+            builder.Services.AddHttpClient();
+
+            // Services
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                var keycloakSettings = builder.Configuration.GetSection("Keycloak");
+                options.Authority = keycloakSettings["Authority"];
+                options.RequireHttpsMetadata = bool.Parse(keycloakSettings["RequireHttpsMetadata"] ?? "true");
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"Auth failed: {context.Exception?.Message}");
+                        return Task.CompletedTask;
+                    },
+                    OnTokenValidated = context =>
+                    {
+                        // Log dei claim ricevuti (debug)
+                        var claims = context.Principal?.Claims.Select(c => $"{c.Type}={c.Value}");
+                        Console.WriteLine($"Token validated. Claims: {string.Join(", ", claims ?? [])}");
+                        return Task.CompletedTask;
+                    }
+                };
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudiences = new[] { "goalgrow-api", "account" }, // Accetta entrambi
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    // Mappa i claim con nomi standard
+                    NameClaimType = "preferred_username", // User.Identity.Name
+                    RoleClaimType = "realm_access.roles"  // User.IsInRole("admin")
+                };
+            });
+
+            builder.Services.AddAuthorization();
+
             builder.Services.AddDbContext<GoalGrowDbContext>(options =>
             {
                 var connectionString = builder.Configuration.GetConnectionString("GoalGrowDb");
@@ -38,36 +80,24 @@ namespace GoalGrow.API
                 });
             });
 
-            // JWT Authentication (basic)
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = builder.Configuration["Keycloak:Authority"] ?? "https://your-keycloak-server/auth/realms/your-realm";
-                    options.Audience = builder.Configuration["Keycloak:Audience"] ?? "your-client-id";
-                    options.RequireHttpsMetadata = false; // Solo per sviluppo, metti true in produzione
-
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ClockSkew = TimeSpan.FromMinutes(5)
-                    };
-                });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.MapOpenApi();
+                app.MapScalarApiReference(options =>
+                {
+                    options.WithTitle("GoalGrow API");
+                    options.WithTheme(ScalarTheme.Moon);
+                });
             }
 
             app.UseHttpsRedirection();
-            app.UseSerilogRequestLogging();
-            app.UseAuthentication(); // <--- IMPORTANTE: prima di UseAuthorization
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.MapControllers();
 
             app.Run();

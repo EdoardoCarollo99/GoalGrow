@@ -11,6 +11,7 @@ namespace GoalGrow.Data.Configurations
             builder.HasKey(b => b.Id);
 
             builder.HasIndex(b => new { b.UserId, b.Status });
+            builder.HasIndex(b => new { b.UserId, b.Period, b.StartDate }); // Per query budget mensili/annuali
 
             builder.Property(b => b.Amount).HasPrecision(18, 2);
             builder.Property(b => b.SpentAmount).HasPrecision(18, 2);

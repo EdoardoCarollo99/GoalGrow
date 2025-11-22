@@ -11,6 +11,7 @@ namespace GoalGrow.Data.Configurations
             builder.HasKey(p => p.Id);
 
             builder.HasIndex(p => p.UserId);
+            builder.HasIndex(p => p.ConsultantId); // Per query consulente ? portfolios clienti
 
             builder.Property(p => p.TotalInvested).HasPrecision(18, 2);
             builder.Property(p => p.CurrentValue).HasPrecision(18, 2);

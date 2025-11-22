@@ -14,6 +14,7 @@ namespace GoalGrow.Data.Configurations
                 .IsUnique();
 
             builder.HasIndex(t => new { t.AccountId, t.TransactionDate });
+            builder.HasIndex(t => new { t.UserId, t.TransactionDate }); // Per query cronologiche user
             builder.HasIndex(t => new { t.UserId, t.Status });
 
             builder.Property(t => t.Amount)
